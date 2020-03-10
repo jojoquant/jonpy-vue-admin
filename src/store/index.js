@@ -5,11 +5,18 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    dashboardCoreDrawer: true,
   },
+
   mutations: {
+    inverseDashboardCoreDrawer(state) {
+      state.dashboardCoreDrawer = !state.dashboardCoreDrawer
+    }
   },
+
   actions: {
   },
+
   modules: {
-  }
+  },
 })
