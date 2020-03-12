@@ -10,9 +10,18 @@
               </v-toolbar>
 
               <v-card-text>
-                <v-form>
-                  <v-text-field label="Login" name="login" prepend-icon="person" type="text" />
+                <v-form @submit.stop.prevent="login" ref="form" v-model="valid" lazy-validation>
                   <v-text-field
+                    v-model="username"
+                    :rules="nameRules"
+                    label="Username"
+                    name="username"
+                    prepend-icon="person"
+                    type="text"
+                    required
+                  />
+                  <v-text-field
+                    v-model="password"
                     id="password"
                     label="Password"
                     name="password"
@@ -24,9 +33,8 @@
 
               <v-card-actions>
                 <v-spacer />
-                <v-btn color="primary">Login</v-btn>
+                <v-btn @click="login" color="primary">Login</v-btn>
               </v-card-actions>
-
             </v-card>
           </v-col>
         </v-row>
@@ -36,7 +44,56 @@
 </template>
 
 <script>
+import * as types from "../store/types";
+import api from "../api/index";
+
 export default {
-  name:'Login',
+  name: "Login",
+
+  data: () => {
+    return {
+      username: "",
+      password: "",
+      valid: true,
+      nameRules: [v => !!v || "Name is required"]
+    };
+  },
+
+  methods: {
+    async login() {
+      if (this.$refs.form.validate()) {
+        let params = {
+          username: this.username,
+          password: this.password
+        };
+
+        // params = qs.stringify(params)
+        // axios.post(this.$route.path, params)
+        // .then(res => {
+        //   console.log(res)
+        //   this.$store.commit(types.LOGIN, res.token)
+        // })
+        // .catch(err => {
+        //   console.error(err);
+        // })
+        // console.log(axios);
+        // console.log(params);
+        // console.log(api, api.api_login)
+
+        try {
+          let res = await api.login(params);
+          console.log(typeof res);
+          console.log(res);
+          this.$store.commit(types.LOGIN, res.token);
+          localStorage.setItem("token", res.token);
+          this.$router.push({
+            name: "dashboard"
+          });
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    }
+  }
 };
 </script>

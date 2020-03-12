@@ -3,7 +3,9 @@
     <dashboard-core-app-bar />
 
     <dashboard-core-drawer />
-
+    <router-link to="/dataloader">dataloader</router-link>
+    <router-link to="/backtester">backtester</router-link>
+    <router-view></router-view>
     <dashboard-core-footer />
   </v-app>
 </template>
