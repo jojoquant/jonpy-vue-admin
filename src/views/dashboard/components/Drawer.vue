@@ -26,8 +26,8 @@ export default {
   data: () => {
     return {
       // drawer: true,
-      expandOnHover: true,
-      miniVariant: true,
+      expandOnHover: false,
+      miniVariant: false,
       appObjArray: [
         { icon: "mdi-apple", appName: "数据导入" },
         { icon: "mdi-ipod", appName: "回测加载" },

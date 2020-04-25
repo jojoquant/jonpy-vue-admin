@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "serve:test":"set NODE_ENV=test && vue-cli-service serveue",
-    "serve:production":"set NODE_ENV=production && vue-cli-service serveue",
+    "serve:test": "set NODE_ENV=test && vue-cli-service serveue",
+    "serve:production": "set NODE_ENV=production && vue-cli-service serveue",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
@@ -13,6 +13,7 @@
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
     "qs": "^6.9.1",
+    "stompjs": "^2.3.3",
     "vue": "^2.6.11",
     "vue-router": "^3.1.6",
     "vuetify": "^2.2.11",
