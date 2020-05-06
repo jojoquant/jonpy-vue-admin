@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer
-    v-model="$store.state.dashboardCoreDrawer"
+    v-model="drawerStatus.drawer"
     :mini-variant="miniVariant"
     :expand-on-hover="expandOnHover"
     app
@@ -9,10 +9,10 @@
     <v-list>
       <v-list-item link v-for="(item, index) in appObjArray" :key="index">
         <v-list-item-action>
-          <v-icon>{{item.icon}}</v-icon>
+          <v-icon>{{ item.icon }}</v-icon>
         </v-list-item-action>
         <v-list-item-content>
-          <v-list-item-title>{{item.appName}}</v-list-item-title>
+          <v-list-item-title>{{ item.appName }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -20,8 +20,10 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
-  name: "DashboardCoreDrawer",
+  name: "DashboardDrawer",
 
   data: () => {
     return {
@@ -36,6 +38,13 @@ export default {
       ]
     };
   },
+
+  computed: {
+    ...mapState({
+      // 这里用 state.dashboard 而不是 state.dashboard, 防止没有设置set属性[warning]
+      drawerStatus: state => state.dashboard
+    })
+  }
 
 };
 </script>

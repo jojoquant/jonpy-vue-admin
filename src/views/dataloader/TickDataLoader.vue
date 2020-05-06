@@ -1,7 +1,7 @@
 <template>
   <v-card dense max-width="400" color="indigo">
     <v-card-title primary-title>
-      Bar数据导入
+      Tick数据导入
     </v-card-title>
     <v-row>
       <v-col>
@@ -35,7 +35,7 @@
 
 <script>
 export default {
-  name: "BarDataLoader",
+  name: "TickDataLoader",
   components: {
     ContractInfoCard: () => import("./components/ContractInfoCard"),
     TableInfoCard: () => import("./components/TableInfoCard"),
@@ -44,7 +44,19 @@ export default {
 
   data: () => ({
     tag: "我是Dataloader模块",
+    exchanges: ["DCE", "SHFE"],
+    symbols: ["RB", "A"],
+    periods: [
+      "MINUTE",
+      "MINUTE_5",
+      "MINUTE_15",
+      "MINUTE_30",
+      "HOUR",
+      "DAILY",
+      "WEEKLY"
+    ],
     load_methods:['to_db', 'to_csv'],
+    value:'',
   })
 };
 </script>

@@ -1,12 +1,12 @@
 <template>
   <v-app id='inspire'>
-    <dashboard-core-app-bar />
-
-    <dashboard-core-drawer />
+    <dashboard-app-bar />
+    <dashboard-drawer />
     <router-link to="/dataloader">dataloader</router-link>
     <router-link to="/backtester">backtester</router-link>
+    <router-link to="/test">组件测试</router-link>
     <router-view></router-view>
-    <dashboard-core-footer />
+    <dashboard-footer />
   </v-app>
 </template>
 
@@ -14,9 +14,9 @@
   export default {
     name: 'DashboardIndex',
     components: {
-      DashboardCoreAppBar: () => import('./components/AppBar'),
-      DashboardCoreDrawer: () => import('./components/Drawer'),
-      DashboardCoreFooter: () => import('./components/Footer'),
+      DashboardAppBar: () => import('./components/AppBar'),
+      DashboardDrawer: () => import('./components/Drawer'),
+      DashboardFooter: () => import('./components/Footer'),
     },
 
     data: () => ({

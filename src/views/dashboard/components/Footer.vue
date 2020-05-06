@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "DashboardCoreFooter",
+  name: "DashboardFooter",
   data: () => ({}),
 };
 

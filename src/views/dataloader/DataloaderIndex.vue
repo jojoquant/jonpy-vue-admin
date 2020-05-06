@@ -1,46 +1,36 @@
 <template>
   <v-container fluid>
-    <BarDataLoader />
-    <div>
-      {{rb_stomp.on_message_call_back_frame.body}}
-    </div>
-    <!-- <v-btn color="success" @click="rb_stomp.connect()">text</v-btn> -->
+    <v-row>
+      <v-col>
+        <BarDataLoader />
+      </v-col>
+      <v-col>
+        <TickDataLoader />
+      </v-col>
+    </v-row>
     <v-btn color="success" @click="connect">text</v-btn>
   </v-container>
 </template>
 
 <script>
-import RabbitmqStomp from '../../network/websocket'
+import vuex_dataloader_types from "../../store/modules/dataloader_types";
+import { mapActions } from "vuex";
 
 export default {
   name: "DataloaderIndex",
   components: {
-    BarDataLoader: () => import("./BarDataLoader")
+    BarDataLoader: () => import("./BarDataLoader"),
+    TickDataLoader: () => import("./TickDataLoader")
   },
 
-  data: () => ({
-    tag: "我是Dataloader模块",
-    exchanges: ["DCE", "SHFE"],
-    symbols: ["RB", "A"],
-    periods: [
-      "MINUTE",
-      "MINUTE_5",
-      "MINUTE_15",
-      "MINUTE_30",
-      "HOUR",
-      "DAILY",
-      "WEEKLY"
-    ],
-    rb_stomp : new RabbitmqStomp(
-      "/exchange/topic_logs/#"
-    )
-  }),
+  beforeMount() {
+    this.__init__("ws://192.168.0.104:8888/dataloader");
+  },
+
+  data: () => ({}),
 
   methods: {
-    connect(){
-      console.log('vue connect')
-      this.rb_stomp.connect()
-    }
-  },
+    ...mapActions(vuex_dataloader_types.name, [vuex_dataloader_types.__init__])
+  }
 };
 </script>

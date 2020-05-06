@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import * as types from "../store/types";
+import types from "../store/modules/login_types";
 import api from "../api/index";
 
 export default {
