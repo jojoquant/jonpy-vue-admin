@@ -6,17 +6,18 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions } from "vuex";
+import vuex_dashboard_types from "../../../store/modules/dashboard_types";
 
 export default {
   name: "DashboardAppBar",
 
   data: () => ({
-    hideOnScroll:true,
+    hideOnScroll: true
   }),
 
-  methods:{
-    ...mapActions('dashboard', ['InverseDrawerStatus'])
-  },
+  methods: {
+    ...mapActions(vuex_dashboard_types.name, [vuex_dashboard_types.InverseDrawerStatus])
+  }
 };
 </script>

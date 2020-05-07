@@ -1,3 +1,4 @@
 export default {
-    InverseDrawerStatus:'inverseDrawerStatus'
+    name:'dashboard',
+    InverseDrawerStatus:'InverseDrawerStatus'
 }
