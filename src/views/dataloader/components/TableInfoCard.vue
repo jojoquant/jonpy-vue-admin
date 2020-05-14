@@ -1,20 +1,25 @@
 <template>
-  <v-simple-table dense>
-    <template v-slot:default>
-      <thead>
-        <tr>
-          <th class="text-left">Name</th>
-          <th class="text-left">Field</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item in fields" :key="item.name">
-          <td>{{ item.name }}</td>
-          <td>{{ item.value }}</td>
-        </tr>
-      </tbody>
-    </template>
-  </v-simple-table>
+  <v-card>
+    <v-card-title class="py-1">
+      表头信息
+    </v-card-title>
+    <v-simple-table dense>
+      <template v-slot:default>
+        <thead>
+          <tr>
+            <th class="text-left">Name</th>
+            <th class="text-left">Field</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in fields" :key="item.name">
+            <td>{{ item.name }}</td>
+            <td>{{ item.value }}</td>
+          </tr>
+        </tbody>
+      </template>
+    </v-simple-table>
+  </v-card>
 </template>
 
 <script>

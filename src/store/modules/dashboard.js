@@ -5,7 +5,7 @@ const dashboard = {
     namespaced:true,
 
     state:{
-        drawer: false,
+        drawer: true,
         sideBarApps: {},
     },
 

@@ -5,15 +5,8 @@
     </v-card-title>
     <v-row>
       <v-col>
-        <v-card-title class="py-1" primary-title>
-          合约信息
-        </v-card-title>
         <ContractInfoCard />
         <FormatInfoCard />
-
-        <v-card-title class="py-1">
-          表头信息
-        </v-card-title>
         <TableInfoCard />
       </v-col>
     </v-row>
@@ -21,19 +14,23 @@
     <v-row>
       <v-col class="text-right">
         <v-select
-          :items="load_methods"
-          v-model="load_methods[0]"
+          :items="dataloader.export_to"
+          value="to_db"
           label="载入数据到"
+          dense
+          outlined
         ></v-select>
       </v-col>
-      <v-col class="text-left">
-        <v-btn color="success" class="mr-0">载入数据</v-btn>
+      <v-col class="text-center">
+        <v-btn color="success" class="mr-0">开始加载</v-btn>
       </v-col>
     </v-row>
   </v-card>
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "BarDataLoader",
   components: {
@@ -42,9 +39,12 @@ export default {
     FormatInfoCard: () => import("./components/FormatInfoCard")
   },
 
-  data: () => ({
-    tag: "我是Dataloader模块",
-    load_methods:['to_db', 'to_csv'],
-  })
+  data: () => ({}),
+
+  computed: {
+    ...mapState({
+      dataloader: state => state.dataloader
+    })
+  }
 };
 </script>

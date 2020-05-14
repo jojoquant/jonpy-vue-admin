@@ -4,11 +4,7 @@
       <v-col>
         <BarDataLoader />
       </v-col>
-      <v-col>
-        <TickDataLoader />
-      </v-col>
     </v-row>
-    <v-btn color="success" @click="connect">text</v-btn>
   </v-container>
 </template>
 
@@ -20,7 +16,6 @@ export default {
   name: "DataloaderIndex",
   components: {
     BarDataLoader: () => import("./BarDataLoader"),
-    TickDataLoader: () => import("./TickDataLoader")
   },
 
   beforeMount() {

@@ -21,13 +21,13 @@ const routes = [
     meta: {
       title: '主控制台',
     },
-    beforeEnter: (to, from, next) => {
-      let token = localStorage.getItem('token')
-      if (!token || typeof(token)==='undefined') {
-        return next({ name: 'login' });
-      }
-      return next();
-    },
+    // beforeEnter: (to, from, next) => {
+    //   let token = localStorage.getItem('token')
+    //   if (!token || typeof(token)==='undefined') {
+    //     return next({ name: 'login' });
+    //   }
+    //   return next();
+    // },
     children: [
       {
         path: '/backtester',
@@ -43,6 +43,14 @@ const routes = [
         component: () => import('../views/dataloader/DataloaderIndex.vue'),
         meta: {
           title: '数据加载',
+        },
+      },
+      {
+        path: '/test',
+        name: 'TableInfoCard',
+        component: () => import('../views/dataloader/components/ContractInfoCard.vue'),
+        meta: {
+          title: '组件测试',
         },
       },
     ]
