@@ -9,15 +9,21 @@ const dataloader = {
     error: null,
     contracts: {
       exchanges: [],
-      exchange_selected: [],
       symbols: [],
-      symbols_selected: [],
       periods: [],
-      periods_selected: [],
       type: "L8"
     },
     time_format: "",
-    export_to: ["to_db", "to_csv"]
+    export_to: ["to_db", "to_csv"],
+    submit_data: {
+      exchange_selected: [],
+      symbols_selected: [],
+      periods_selected: [],
+      type: "L8",
+      time_format: "",
+      export_to_selected: ""
+    },
+    progress: 0
   },
 
   getters: {
@@ -48,19 +54,27 @@ const dataloader = {
         const re_obj_data = JSON.parse(event.data);
         if ("exchanges" in re_obj_data) {
           state.contracts.exchanges = re_obj_data.exchanges;
-        } 
+        }
         if ("symbols" in re_obj_data) {
           state.contracts.symbols = re_obj_data.symbols;
-        } 
+        }
         if ("periods" in re_obj_data) {
           state.contracts.periods = re_obj_data.periods;
-        } 
-        if ("time_format" in re_obj_data){
-          state.time_format = re_obj_data.time_format
-        } 
-        if ("export_to" in re_obj_data){
-          state.export_to = re_obj_data.export_to
-        } 
+        }
+        if ("time_format" in re_obj_data) {
+          state.time_format = re_obj_data.time_format;
+          state.submit_data.time_format = re_obj_data.time_format;
+        }
+        if ("export_to" in re_obj_data) {
+          state.export_to = re_obj_data.export_to;
+        }
+        if ("progress" in re_obj_data) {
+          state.progress = re_obj_data.progress;
+        }
+        if("save_result" in re_obj_data){
+          state.save_result = re_obj_data.save_result
+          confirm(re_obj_data.save_result)
+        }
       };
     },
 
@@ -79,22 +93,24 @@ const dataloader = {
 
     [self.updateTimeFormat](state, new_time_formate_str) {
       state.time_format = new_time_formate_str;
+      state.submit_data.time_format = new_time_formate_str;
     },
 
     [self.updateContractType](state, new_contract_type_str) {
       state.contracts.type = new_contract_type_str;
+      state.submit_data.type = new_contract_type_str;
     },
 
     [self.changeExchanges](state, current_exchange) {
-      state.contracts.exchange_selected = current_exchange;
+      state.submit_data.exchange_selected = current_exchange;
     },
 
     [self.changeSymbols](state, current_symbols) {
-      state.contracts.symbols_selected = current_symbols;
+      state.submit_data.symbols_selected = current_symbols;
     },
 
     [self.changePeriods](state, current_periods) {
-      state.contracts.periods_selected = current_periods;
+      state.submit_data.periods_selected = current_periods;
     }
   },
 
