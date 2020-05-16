@@ -32,7 +32,9 @@ const dataloader = {
 
   mutations: {
     [self.__init__](state, wss_url) {
-      state.ws_client = new WebSocket(wss_url);
+      if (state.ws_client == null){
+        state.ws_client = new WebSocket(wss_url);
+      }
 
       state.ws_client.onopen = () => {
         console.log("vuex dataloader websocket connect successful!");

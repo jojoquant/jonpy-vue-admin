@@ -1,13 +1,19 @@
 <template>
   <v-navigation-drawer
-    v-model="drawerStatus.drawer"
+    v-model="dashboard.drawer"
     :mini-variant="miniVariant"
     :expand-on-hover="expandOnHover"
     app
     clipped
   >
     <v-list>
-      <v-list-item link v-for="(item, index) in appObjArray" :key="index">
+      <v-list-item
+        link
+        v-for="(item, index) in dashboard.drawerItemsArray"
+        :key="index"
+        router
+        :to="item.route"
+      >
         <v-list-item-action>
           <v-icon>{{ item.icon }}</v-icon>
         </v-list-item-action>
@@ -29,22 +35,15 @@ export default {
     return {
       // drawer: true,
       expandOnHover: false,
-      miniVariant: false,
-      appObjArray: [
-        { icon: "mdi-apple", appName: "数据导入" },
-        { icon: "mdi-ipod", appName: "回测加载" },
-        { icon: "mdi-apple-icloud", appName: "策略监控" },
-        { icon: "settings", appName: "设置" }
-      ]
+      miniVariant: false
     };
   },
 
   computed: {
     ...mapState({
       // 这里用 state.dashboard 而不是 state.dashboard, 防止没有设置set属性[warning]
-      drawerStatus: state => state.dashboard
+      dashboard: state => state.dashboard
     })
   }
-
 };
 </script>

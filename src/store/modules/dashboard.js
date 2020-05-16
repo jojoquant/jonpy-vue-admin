@@ -1,30 +1,31 @@
-import TYPES from './dashboard_types'
+import TYPES from "./dashboard_types";
 
 const dashboard = {
+  namespaced: true,
 
-    namespaced:true,
+  state: {
+    drawer: true,
+    drawerItemsArray: [
+      { icon: "mdi-apple", appName: "数据导入", route: "/dataloader" },
+      { icon: "mdi-ipod", appName: "回测加载", route: "/backtester" },
+      { icon: "mdi-apple-icloud", appName: "策略监控" },
+      { icon: "settings", appName: "设置" }
+    ]
+  },
 
-    state:{
-        drawer: true,
-        sideBarApps: {},
-    },
+  getters: {},
 
-    getters:{
-
-    },
-
-    mutations:{
-        [TYPES.InverseDrawerStatus](state){
-            // ./src/views/dashboard/components/AppBar.vue
-            state.drawer = !state.drawer;
-        }
-    },
-    
-    actions:{
-        async InverseDrawerStatus({commit}){
-            commit(TYPES.InverseDrawerStatus)
-        }
+  mutations: {
+    [TYPES.InverseDrawerStatus](state) {
+      state.drawer = !state.drawer;
     }
-}
+  },
 
-export default dashboard
+  actions: {
+    async InverseDrawerStatus({ commit }) {
+      commit(TYPES.InverseDrawerStatus);
+    }
+  }
+};
+
+export default dashboard;
