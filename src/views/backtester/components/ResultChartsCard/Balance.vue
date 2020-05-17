@@ -1,5 +1,7 @@
 <template>
-  <div :id="id" style="width: 600px;height:250px;"></div>
+  <v-card class="py-0" height="100%">
+    <div :id="id" style="width: 100%;height:100%;"></div>
+  </v-card>
 </template>
 
 <script>
