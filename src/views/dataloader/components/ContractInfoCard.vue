@@ -8,6 +8,7 @@
       outlined
       dense
       class="pa-1"
+      hide-details
       :items="contracts.exchanges"
       label="交易所"
       required
@@ -19,6 +20,7 @@
       multiple
       outlined
       clearable
+      hide-details
       small-chips
       class="pa-1"
       :items="contracts.symbols"
@@ -33,6 +35,7 @@
       outlined
       clearable
       small-chips
+      hide-details
       class="pa-1"
       :items="contracts.periods"
       label="数据周期"
@@ -44,6 +47,7 @@
       v-model="contracts_type"
       outlined
       dense
+      hide-details
       class="pa-1"
       label="合约类型(L8主连/L9指数/2006)"
       required

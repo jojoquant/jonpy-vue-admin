@@ -9,6 +9,7 @@
       class="purple-input"
       outlined
       dense
+      hide-details
       @change="updateTimeFormat"
     />
   </v-card>

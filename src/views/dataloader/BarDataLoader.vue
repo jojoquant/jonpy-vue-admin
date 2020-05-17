@@ -20,6 +20,7 @@
           :placeholder="export_to_default"
           dense
           outlined
+          hide-details
         ></v-select>
       </v-col>
       <v-col class="text-center">

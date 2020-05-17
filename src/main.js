@@ -7,7 +7,6 @@ import router from './router'
 import axios from './network/axiosPromiseWrap'
 import vuetify from './plugins/vuetify';
 
-
 Vue.config.productionTip = false
 
 new Vue({

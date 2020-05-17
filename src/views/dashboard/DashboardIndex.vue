@@ -2,7 +2,9 @@
   <v-app id="dashboard">
     <dashboard-app-bar />
     <dashboard-drawer />
-    <router-view></router-view>
+    <v-container grid-list-xs >
+      <router-view></router-view>
+    </v-container>
     <dashboard-footer />
   </v-app>
 </template>
@@ -20,6 +22,6 @@ export default {
 
   created() {
     this.$vuetify.theme.dark = true;
-  },
+  }
 };
 </script>
