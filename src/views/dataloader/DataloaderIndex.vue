@@ -10,16 +10,19 @@
 
 <script>
 import vuex_dataloader_types from "../../store/modules/dataloader_types";
+import setting from "../../setting";
 import { mapActions } from "vuex";
 
 export default {
   name: "DataloaderIndex",
   components: {
-    BarDataLoader: () => import("./BarDataLoader"),
+    BarDataLoader: () => import("./BarDataLoader")
   },
 
   beforeMount() {
-    this.__init__("ws://192.168.0.104:8888/dataloader");
+    this.__init__(
+      `ws://${setting.back_end_ip}:${setting.back_end_port}/${vuex_dataloader_types.name}`
+    );
   },
 
   data: () => ({}),
