@@ -16,16 +16,16 @@ const dataloader = {
     inverse_mode: ["正向", "反向"],
     backtest_mode: ["Thread回测", "Debug回测"],
     submit_data: {
-      strategy: [],
-      exchange: [],
-      symbol: [],
-      period: [],
+      strategy: "",
+      exchange: "",
+      symbol: "",
+      period: "",
       start_datetime: "",
       end_datetime: "",
       rate: 0.0002,
-      slippage: 0,
-      size: 10,
-      pricetick: 1,
+      slippage: 0.0,
+      size: 10.0,
+      pricetick: 1.0,
       capital: 1000000,
       inverse_mode_selected: "正向",
       backtest_mode_selected: "Debug回测"
@@ -61,7 +61,16 @@ const dataloader = {
 
       state.ws_client.onmessage = event => {
         const re_obj_data = JSON.parse(event.data);
-        Object.assign(state, re_obj_data)
+        console.log(re_obj_data);
+        if ("submit_data" in re_obj_data) {
+          // 返回的对象, 如果有submit_data字段, 先更新这个字段
+          // 然后删除submit_data字段, 在更新其他字段
+          // 否则, 返回的submit_data会覆盖state中的原有字段
+          Object.assign(state.submit_data, re_obj_data.submit_data)
+          delete re_obj_data.submit_data
+        }
+        console.log(re_obj_data)
+        Object.assign(state, re_obj_data);
       };
     },
 
@@ -78,26 +87,43 @@ const dataloader = {
       state.connected = false;
     },
 
-    [self.updateTimeFormat](state, new_time_formate_str) {
-      state.time_format = new_time_formate_str;
-      state.submit_data.time_format = new_time_formate_str;
-    },
-
-    [self.updateContractType](state, new_contract_type_str) {
-      state.contracts.type = new_contract_type_str;
-      state.submit_data.type = new_contract_type_str;
+    [self.changeStrategy](state, current_strategy) {
+      // change strategy used in backtester
+      state.submit_data.strategy = current_strategy;
     },
 
     [self.changeExchanges](state, current_exchange) {
-      state.submit_data.exchange_selected = current_exchange;
+      // change exchange used in backtester
+      state.submit_data.exchange = current_exchange;
     },
 
-    [self.changeSymbols](state, current_symbols) {
-      state.submit_data.symbols_selected = current_symbols;
+    [self.changeSymbols](state, current_symbol) {
+      state.submit_data.symbol = current_symbol;
     },
 
-    [self.changePeriods](state, current_periods) {
-      state.submit_data.periods_selected = current_periods;
+    [self.changePeriods](state, current_period) {
+      state.submit_data.period = current_period;
+    },
+
+    [self.updateRate](state, val){
+      console.log("updateRate")
+      state.submit_data.rate = Number(val)
+    },
+    [self.updateSlippage](state, val){
+      console.log("updateSlippage")
+      state.submit_data.slippage = Number(val)
+    },
+    [self.updateSize](state, val){
+      console.log("updateSize")
+      state.submit_data.size = Number(val)
+    },
+    [self.updatePricetick](state, val){
+      console.log("updatePricetick")
+      state.submit_data.pricetick = Number(val)
+    },
+    [self.updateCapital](state, val){
+      console.log("updateCapital")
+      state.submit_data.capital = Number(val)
     }
   },
 

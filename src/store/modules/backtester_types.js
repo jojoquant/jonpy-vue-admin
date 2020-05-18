@@ -4,9 +4,13 @@ export default {
   send: "send",
   set_error: "set_error",
   disconnect: "disconnect",
-  updateTimeFormat: "updateTimeFormat",
-  updateContractType: "updateContractType",
+  changeStrategy: "changeStrategy",
   changeExchanges: "changeExchanges",
   changeSymbols: "changeSymbols",
-  changePeriods: "changePeriods"
+  changePeriods: "changePeriods",
+  updateRate:"updateRate",
+  updateSlippage:"updateSlippage",
+  updateSize:"updateSize",
+  updatePricetick:"updatePricetick",
+  updateCapital:"updateCapital",
 };

@@ -8,7 +8,7 @@
       :items="backtester.strategy_array"
       label="交易策略"
       required
-      @change="sendExchanges"
+      @change="changeStrategy"
     ></v-select>
 
     <v-select
@@ -29,7 +29,7 @@
       class="pa-1"
       :items="backtester.symbol_array"
       label="合约代码"
-      @change="changeSymbols"
+      @change="sendSymbol"
       required
     ></v-select>
 
@@ -48,7 +48,7 @@
       class="pa-1"
       :items="backtester.period_array"
       label="K线周期"
-      @change="changePeriods"
+      @change="sendPeriod"
       required
     ></v-select>
 
@@ -64,14 +64,14 @@
     ></v-text-field>
 
     <v-text-field
-      v-model="item.value"
+      v-model="backtester.submit_data[item.name]"
       outlined
       dense
       hide-details
       class="pa-1"
       :label="item.label"
       required
-      @change="updateContractType"
+      @change="item.func"
       v-for="(item, index) in bt_setting"
       :key="index"
     ></v-text-field>
@@ -112,7 +112,7 @@
 </template>
 
 <script>
-import vuex_dataloader_types from "../../../store/modules/dataloader_types";
+import vuex_backtester_types from "../../../store/modules/backtester_types";
 import { mapState, mapActions, mapMutations } from "vuex";
 import DatePicker from "./StrategyInfoCard/DatePicker";
 
@@ -122,24 +122,26 @@ export default {
     DatePicker
   },
 
-  created(){
+  created() {
     this.bt_setting = [
-      { label: "手续费率", value: this.backtester.submit_data.rate },
-      { label: "交易滑点", value: this.backtester.submit_data.slippage},
-      { label: "合约乘数", value: this.backtester.submit_data.size},
-      { label: "价格跳动", value: this.backtester.submit_data.pricetick},
-      { label: "回测资金", value: this.backtester.submit_data.capital}
-    ]
+      { label: "手续费率", name:"rate", func:this.updateRate},
+      { label: "交易滑点", name:"slippage" , func:this.updateSlippage},
+      { label: "合约乘数", name:"size" , func: this.updateSize},
+      { label: "价格跳动", name:"pricetick", func:this.updatePricetick },
+      { label: "回测资金", name:"capital" , func:this.updateCapital}
+    ];
   },
 
   data: () => ({
-
+    cur_exchange: "",
+    cur_symbol: "",
+    cur_period: ""
   }),
 
   computed: {
     ...mapState({
       backtester: state => state.backtester
-    }),
+    })
     // contracts_type: {
     //   get() {
     //     return this.contracts.type;
@@ -151,16 +153,45 @@ export default {
   },
 
   methods: {
-    ...mapActions(vuex_dataloader_types.name, [vuex_dataloader_types.send]),
-    ...mapMutations(vuex_dataloader_types.name, [
-      vuex_dataloader_types.updateContractType,
-      vuex_dataloader_types.changeExchanges,
-      vuex_dataloader_types.changeSymbols,
-      vuex_dataloader_types.changePeriods
+    ...mapActions(vuex_backtester_types.name, [vuex_backtester_types.send]),
+    ...mapMutations(vuex_backtester_types.name, [
+      vuex_backtester_types.changeStrategy,
+      vuex_backtester_types.changeExchanges,
+      vuex_backtester_types.changeSymbols,
+      vuex_backtester_types.changePeriods,
+      vuex_backtester_types.updateRate,
+      vuex_backtester_types.updateSlippage,
+      vuex_backtester_types.updateSize,
+      vuex_backtester_types.updatePricetick,
+      vuex_backtester_types.updateCapital,
     ]),
+
     sendExchanges(val) {
-      this.send(JSON.stringify({ exchanges: val }));
+      this.send(JSON.stringify({ exchange: val }));
       this.changeExchanges(val);
+      this.cur_exchange = val;
+    },
+
+    sendSymbol(val) {
+      this.send(
+        JSON.stringify({ symbol: { symbol: val, exchange: this.cur_exchange } })
+      );
+      this.changeSymbols(val);
+      this.cur_symbol = val;
+    },
+
+    sendPeriod(val) {
+      this.send(
+        JSON.stringify({
+          period: {
+            symbol: this.cur_symbol,
+            exchange: this.cur_exchange,
+            period: val
+          }
+        })
+      );
+      this.changePeriods(val);
+      this.period = val;
     }
   }
 };
