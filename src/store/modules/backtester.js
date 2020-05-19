@@ -7,14 +7,14 @@ const dataloader = {
     ws_client: null,
     connected: false,
     error: null,
-    strategy_array: ["bollstrategy", "MACD", "RSI"],
-    exchange_array: ["DCE", "DCE1"],
-    symbol_array: ["A", "B", "RB"],
+    strategy_array: [],
+    exchange_array: [],
+    symbol_array: [],
     symbol_name: "金",
-    period_array: ["MIN", "HOUR"],
-    data_nums: 100,
-    inverse_mode: ["正向", "反向"],
-    backtest_mode: ["Thread回测", "Debug回测"],
+    period_array: [],
+    data_nums: 0,
+    inverse_mode: [],
+    backtest_mode: [],
     submit_data: {
       strategy: "",
       exchange: "",
@@ -27,9 +27,10 @@ const dataloader = {
       size: 10.0,
       pricetick: 1.0,
       capital: 1000000,
-      inverse_mode_selected: "正向",
-      backtest_mode_selected: "Debug回测"
+      inverse_mode_selected: "",
+      backtest_mode_selected: ""
     },
+    strategy_setting:{},
     progress: 0
   },
 
@@ -61,16 +62,22 @@ const dataloader = {
 
       state.ws_client.onmessage = event => {
         const re_obj_data = JSON.parse(event.data);
-        console.log(re_obj_data);
         if ("submit_data" in re_obj_data) {
           // 返回的对象, 如果有submit_data字段, 先更新这个字段
           // 然后删除submit_data字段, 在更新其他字段
           // 否则, 返回的submit_data会覆盖state中的原有字段
-          Object.assign(state.submit_data, re_obj_data.submit_data)
-          delete re_obj_data.submit_data
+          Object.assign(state.submit_data, re_obj_data.submit_data);
+          delete re_obj_data.submit_data;
         }
-        console.log(re_obj_data)
         Object.assign(state, re_obj_data);
+        // 注意这里更新的两个字段
+        // 因为在组件中赋值后再更新vuex.submit_data中的这两字段无法自动触发
+        // 尝试了在几个生命周期内都无法实现, 所以这里进行更新
+        // 应该是在onOpen的时候后端第一次发回时更新vuex.submit_data, 注意判断条件
+        if ("inverse_mode" in re_obj_data && "backtest_mode" in re_obj_data){
+          state.submit_data.inverse_mode_selected = re_obj_data.inverse_mode[0]
+          state.submit_data.backtest_mode_selected = re_obj_data.backtest_mode[0]
+        }
       };
     },
 
@@ -87,7 +94,7 @@ const dataloader = {
       state.connected = false;
     },
 
-    [self.changeStrategy](state, current_strategy) {
+    [self.updateStrategy](state, current_strategy) {
       // change strategy used in backtester
       state.submit_data.strategy = current_strategy;
     },
@@ -105,25 +112,40 @@ const dataloader = {
       state.submit_data.period = current_period;
     },
 
-    [self.updateRate](state, val){
-      console.log("updateRate")
-      state.submit_data.rate = Number(val)
+    [self.updateRate](state, val) {
+      console.log("updateRate");
+      state.submit_data.rate = Number(val);
     },
-    [self.updateSlippage](state, val){
-      console.log("updateSlippage")
-      state.submit_data.slippage = Number(val)
+    [self.updateSlippage](state, val) {
+      console.log("updateSlippage");
+      state.submit_data.slippage = Number(val);
     },
-    [self.updateSize](state, val){
-      console.log("updateSize")
-      state.submit_data.size = Number(val)
+    [self.updateSize](state, val) {
+      console.log("updateSize");
+      state.submit_data.size = Number(val);
     },
-    [self.updatePricetick](state, val){
-      console.log("updatePricetick")
-      state.submit_data.pricetick = Number(val)
+    [self.updatePricetick](state, val) {
+      console.log("updatePricetick");
+      state.submit_data.pricetick = Number(val);
     },
-    [self.updateCapital](state, val){
-      console.log("updateCapital")
-      state.submit_data.capital = Number(val)
+    [self.updateCapital](state, val) {
+      console.log("updateCapital");
+      state.submit_data.capital = Number(val);
+    },
+
+    [self.update_start_datetime](state, val) {
+      state.submit_data.start_datetime = val;
+    },
+    [self.update_end_datetime](state, val) {
+      state.submit_data.end_datetime = val;
+    },
+    
+    [self.update_inverse_mode_selected](state, val) {
+      state.submit_data.inverse_mode_selected = val;
+    },
+
+    [self.update_backtest_mode_selected](state, val) {
+      state.submit_data.backtest_mode_selected = val;
     }
   },
 
