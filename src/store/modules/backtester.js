@@ -31,6 +31,7 @@ const dataloader = {
       backtest_mode_selected: ""
     },
     strategy_setting:{},
+    backtest_statistics_result:{},
     progress: 0
   },
 
@@ -146,6 +147,10 @@ const dataloader = {
 
     [self.update_backtest_mode_selected](state, val) {
       state.submit_data.backtest_mode_selected = val;
+    },
+
+    [self.update_dialog_strategy_setting](state, obj){
+      Object.assign(state.strategy_setting, obj);
     }
   },
 

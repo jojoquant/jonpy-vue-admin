@@ -11,15 +11,14 @@
         <v-container>
           <v-row>
             <v-col>
-              <v-form @submit="formSubmit">
-                <v-text-field
-                  :label="key"
-                  :value="value"
-                  required
-                  v-for="(value, key, index) in backtester.strategy_setting"
-                  :key="index"
-                ></v-text-field>
-              </v-form>
+              <v-text-field
+                :label="key"
+                :value="value"
+                required
+                v-for="(value, key, index) in backtester.strategy_setting"
+                :key="index"
+                @change="updateSettingValue(value, $event, key)"
+              ></v-text-field>
             </v-col>
           </v-row>
         </v-container>
@@ -35,11 +34,16 @@
 
 <script>
 import vuex_backtester_types from "../../../../store/modules/backtester_types";
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 
 export default {
+  created() {
+    this.setting = this.backtester.strategy_setting;
+  },
+
   data: () => ({
-    dialog: false
+    dialog: false,
+    setting: {}
   }),
 
   computed: {
@@ -50,11 +54,37 @@ export default {
 
   methods: {
     ...mapActions(vuex_backtester_types.name, [vuex_backtester_types.send]),
-    run_backtest(e) {
-      console.log(e);
+    ...mapMutations(vuex_backtester_types.name, [
+      vuex_backtester_types.update_dialog_strategy_setting
+    ]),
+
+    run_backtest() {
+      this.send(
+        JSON.stringify({
+          run_backtest: {
+            submit_data: this.backtester.submit_data,
+            strategy_setting: this.backtester.strategy_setting
+          }
+        })
+      );
+      this.dialog = false
     },
-    formSubmit(e){
-        console.log(e)
+
+    updateSettingValue(old_value, new_value, key) {
+      // 这个函数相当精妙! 保留原有值的同时还能传额外值, 默认值$event占位
+      console.log(old_value, new_value, key);
+
+      // 这里对传入的值做类型判断, 并对new_value进行相应的类型转换
+      // 因为new_value入参为string, 在vuetify中无法改变
+      // 注意!!! 目前只做字符串和数字的类型转换
+      let value_type = typeof old_value;
+      if (value_type === "number") {
+        new_value = Number(new_value);
+      }
+
+      let obj = {};
+      obj[key] = new_value;
+      this.update_dialog_strategy_setting(obj);
     }
   }
 };

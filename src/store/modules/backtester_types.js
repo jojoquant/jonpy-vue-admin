@@ -17,4 +17,5 @@ export default {
   update_end_datetime: "update_end_datetime",
   update_inverse_mode_selected: "update_inverse_mode_selected",
   update_backtest_mode_selected: "update_backtest_mode_selected",
+  update_dialog_strategy_setting:"update_dialog_strategy_setting"
 };
