@@ -30,8 +30,35 @@ const dataloader = {
       inverse_mode_selected: "",
       backtest_mode_selected: ""
     },
-    strategy_setting:{},
-    backtest_statistics_result:{},
+    strategy_setting: {},
+    backtest_statistics_result: {
+      首个交易日: null,
+      最后交易日: null,
+      总交易日: null,
+      盈利交易日: null,
+      亏损交易日: null,
+      起始资金: null,
+      结束资金: null,
+      最大回撤: null,
+      百分比最大回撤: null,
+      max_drawdown_duration: null,
+      总盈亏: null,
+      日均盈亏: null,
+      总手续费: null,
+      日均手续费: null,
+      总滑点: null,
+      日均滑点: null,
+      总成交额: null,
+      日均成交额: null,
+      总成交笔数: null,
+      日均成交笔数: null,
+      总收益率: null,
+      年化收益: null,
+      日均收益率: null,
+      收益标准差: null,
+      夏普比率: null,
+      收益回撤比: null
+    },
     progress: 0
   },
 
@@ -75,9 +102,10 @@ const dataloader = {
         // 因为在组件中赋值后再更新vuex.submit_data中的这两字段无法自动触发
         // 尝试了在几个生命周期内都无法实现, 所以这里进行更新
         // 应该是在onOpen的时候后端第一次发回时更新vuex.submit_data, 注意判断条件
-        if ("inverse_mode" in re_obj_data && "backtest_mode" in re_obj_data){
-          state.submit_data.inverse_mode_selected = re_obj_data.inverse_mode[0]
-          state.submit_data.backtest_mode_selected = re_obj_data.backtest_mode[0]
+        if ("inverse_mode" in re_obj_data && "backtest_mode" in re_obj_data) {
+          state.submit_data.inverse_mode_selected = re_obj_data.inverse_mode[0];
+          state.submit_data.backtest_mode_selected =
+            re_obj_data.backtest_mode[0];
         }
       };
     },
@@ -140,7 +168,7 @@ const dataloader = {
     [self.update_end_datetime](state, val) {
       state.submit_data.end_datetime = val;
     },
-    
+
     [self.update_inverse_mode_selected](state, val) {
       state.submit_data.inverse_mode_selected = val;
     },
@@ -149,7 +177,7 @@ const dataloader = {
       state.submit_data.backtest_mode_selected = val;
     },
 
-    [self.update_dialog_strategy_setting](state, obj){
+    [self.update_dialog_strategy_setting](state, obj) {
       Object.assign(state.strategy_setting, obj);
     }
   },

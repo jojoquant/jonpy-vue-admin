@@ -1,14 +1,14 @@
 <template>
-  <v-row>
-    <v-col cols-12 md-2>
+  <v-row align="stretch" justify-space-around>
+    <v-col cols="3">
       <StrategyInfoCard />
     </v-col>
-    <v-col cols-12 md-2>
+    <v-col cols="3" justify-space-between>
       <ResultTableCard />
-      <br />
+      <br>
       <LogTextareas />
     </v-col>
-    <v-col cols-12 md-8>
+    <v-col cols="6">
       <ResultChartCard />
     </v-col>
   </v-row>

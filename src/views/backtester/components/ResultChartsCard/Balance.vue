@@ -1,7 +1,5 @@
 <template>
-  <v-card class="py-0" height="100%">
-    <div :id="id" style="width: 100%;height:100%;"></div>
-  </v-card>
+  <div :id="id" style="width: 100%;height:100%;"></div>
 </template>
 
 <script>
@@ -36,6 +34,10 @@ export default {
       };
 
       myChart.setOption(option);
+
+      window.addEventListener("resize", () => {
+        myChart.resize();
+      });
     }
   }
 };
