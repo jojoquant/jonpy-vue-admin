@@ -1,10 +1,10 @@
 <template>
-  <v-card indigo class="mx-auto">
-    <v-row>
-      <BalanceChart id="myChart1" />
-      <BalanceChart id="myChart2" />
-      <BalanceChart id="myChart3" />
-      <BalanceChart id="myChart4" />
+  <v-card indigo height="25%">
+    <v-row class="fill-height">
+      <BalanceChart id="myChart1" :option="option" />
+      <BalanceChart id="myChart2" :option="option" />
+      <BalanceChart id="myChart3" :option="option" />
+      <BalanceChart id="myChart4" :option="option" />
     </v-row>
   </v-card>
 </template>
@@ -12,7 +12,28 @@
 <script>
 export default {
   components: {
-    BalanceChart: () => import("./ResultChartsCard/Balance")
-  }
+    BalanceChart: () => import("../../../components/echarts")
+  },
+  data() {
+    return {
+      option:{
+        xAxis: {
+          type: "category",
+          data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+        },
+        yAxis: {
+          type: "value"
+        },
+        series: [
+          {
+            data: [820, 932, 901, 934, 1290, 1330, 1320],
+            type: "bar",
+            smooth: true
+          }
+        ],
+        backgroundColor: "#607d8b"
+      },
+    }
+  },
 };
 </script>
