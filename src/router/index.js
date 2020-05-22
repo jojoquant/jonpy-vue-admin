@@ -1,25 +1,25 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import DashboardIndex from '../views/dashboard/DashboardIndex'
-import Login from '../views/Login'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import DashboardIndex from "../views/dashboard/DashboardIndex";
+import Login from "../views/Login";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/login',
-    name: 'login',
+    path: "/login",
+    name: "login",
     component: Login,
     meta: {
-      title: '登录'
-    },
+      title: "登录"
+    }
   },
   {
-    path: '/',
-    name: 'dashboard',
+    path: "/",
+    name: "dashboard",
     component: DashboardIndex,
     meta: {
-      title: '主控制台',
+      title: "主控制台"
     },
     // beforeEnter: (to, from, next) => {
     //   let token = localStorage.getItem('token')
@@ -30,43 +30,44 @@ const routes = [
     // },
     children: [
       {
-        path: '/backtester',
-        name: 'backtester',
-        component: () => import('../views/backtester/BacktesterIndex.vue'),
+        path: "/backtester",
+        name: "backtester",
+        component: () => import("../views/backtester/BacktesterIndex.vue"),
         meta: {
-          title: '策略回测'
+          title: "策略回测"
         },
       },
       {
-        path: '/dataloader',
-        name: 'dataloader',
-        component: () => import('../views/dataloader/DataloaderIndex.vue'),
+        path: "/dataloader",
+        name: "dataloader",
+        component: () => import("../views/dataloader/DataloaderIndex.vue"),
         meta: {
-          title: '数据加载',
-        },
+          title: "数据加载"
+        }
       },
       {
-        path: '/test',
-        name: 'TableInfoCard',
-        component: () => import('../views/dataloader/components/ContractInfoCard.vue'),
+        path: "/test",
+        name: "TableInfoCard",
+        component: () =>
+          import("../views/dataloader/components/ContractInfoCard.vue"),
         meta: {
-          title: '组件测试',
-        },
-      },
+          title: "组件测试"
+        }
+      }
     ]
-  },
-]
+  }
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
   routes
-})
+});
 
 router.beforeEach((to, from, next) => {
   // console.log(to)
-  document.title = to.meta.title
-  next()
-})
+  document.title = to.meta.title;
+  next();
+});
 
-export default router
+export default router;

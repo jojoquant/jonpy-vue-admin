@@ -1,17 +1,19 @@
 <template>
-  <v-row align="stretch" justify-space-around>
-    <v-col cols="3">
-      <StrategyInfoCard />
-    </v-col>
-    <v-col cols="3" justify-space-between>
-      <ResultTableCard />
-      <br>
-      <LogTextareas />
-    </v-col>
-    <v-col cols="6">
-      <ResultChartCard />
-    </v-col>
-  </v-row>
+  <v-tabs>
+    <v-tab>回测主面板</v-tab>
+    <v-tab>交易记录表</v-tab>
+    <v-tab>KLine图表</v-tab>
+
+    <v-tab-item>
+      <MainTab />
+    </v-tab-item>
+    <v-tab-item>
+      <RecordTab />
+    </v-tab-item>
+    <v-tab-item>
+      <MainTab />
+    </v-tab-item>
+  </v-tabs>
 </template>
 
 <script>
@@ -22,10 +24,8 @@ import { mapActions } from "vuex";
 export default {
   name: "BacktesterIndex",
   components: {
-    StrategyInfoCard: () => import("./components/StrategyInfoCard"),
-    ResultTableCard: () => import("./components/ResultTableCard"),
-    ResultChartCard: () => import("./components/ResultChartsCard"),
-    LogTextareas: () => import("./components/LogTextareas")
+    MainTab: () => import("./components/MainTab"),
+    RecordTab:() => import("./components/RecordTab")
   },
 
   data: () => ({

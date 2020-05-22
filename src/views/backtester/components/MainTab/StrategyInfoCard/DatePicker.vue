@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import vuex_backtester_types from "../../../../store/modules/backtester_types";
+import vuex_backtester_types from "../../../../../store/modules/backtester_types";
 import { mapState, mapMutations } from "vuex";
 
 export default {

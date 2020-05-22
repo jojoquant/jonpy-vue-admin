@@ -14,7 +14,7 @@ import { mapState } from "vuex";
 
 export default {
   components: {
-    BalanceChart: () => import("../../../components/echarts")
+    BalanceChart: () => import("../../../../components/echarts")
   },
   data() {
     return {

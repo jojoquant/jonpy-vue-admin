@@ -103,25 +103,15 @@
       @change="update_backtest_mode_selected"
     ></v-select>
 
-    
-
-    <v-row>
-      <v-col>
-        <StrategySettingDialog />
-        <v-btn color="success" @click="submit">开始回测</v-btn>
-      </v-col>
-      <v-col>
-        <v-btn color="success">text</v-btn>
-      </v-col>
-    </v-row>
+    <StrategySettingDialog />
   </v-card>
 </template>
 
 <script>
-import vuex_backtester_types from "../../../store/modules/backtester_types";
+import vuex_backtester_types from "../../../../store/modules/backtester_types";
 import { mapState, mapActions, mapMutations } from "vuex";
 import DatePicker from "./StrategyInfoCard/DatePicker";
-import StrategySettingDialog from './StrategyInfoCard/StrategySettingDialog'
+import StrategySettingDialog from "./StrategyInfoCard/StrategySettingDialog";
 
 export default {
   name: "StrategyInfoCard",
@@ -144,7 +134,7 @@ export default {
     cur_exchange: "",
     cur_symbol: "",
     cur_period: "",
-    date_picker: [{ value: "开始日期" }, { value: "结束日期" }],
+    date_picker: [{ value: "开始日期" }, { value: "结束日期" }]
   }),
 
   computed: {
@@ -169,9 +159,9 @@ export default {
       vuex_backtester_types.update_backtest_mode_selected
     ]),
 
-    changeStrategy(val){
-      this.send(JSON.stringify({ strategy: val }))
-      this.updateStrategy(val)
+    changeStrategy(val) {
+      this.send(JSON.stringify({ strategy: val }));
+      this.updateStrategy(val);
     },
 
     sendExchanges(val) {
@@ -203,7 +193,9 @@ export default {
     },
 
     submit() {
-      console.log(this.backtester.submit_data);
+      // let url = this.$router.resolve({path:'/dataloader', name:'record'})
+      let url = "/backtester/record";
+      window.open(url, "_blank");
     }
   }
 };

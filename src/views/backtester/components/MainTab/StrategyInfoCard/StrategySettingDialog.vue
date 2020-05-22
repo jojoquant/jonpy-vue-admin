@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" max-width="400">
     <template v-slot:activator="{ on }">
-      <v-btn color="primary" dark v-on="on">Open Dialog</v-btn>
+      <v-btn color="primary" dark v-on="on">开始回测</v-btn>
     </template>
     <v-card dense>
       <v-card-title>
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import vuex_backtester_types from "../../../../store/modules/backtester_types";
+import vuex_backtester_types from "../../../../../store/modules/backtester_types";
 import { mapState, mapActions, mapMutations } from "vuex";
 
 export default {
