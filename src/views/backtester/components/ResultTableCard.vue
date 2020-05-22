@@ -9,7 +9,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(value, key) in backtester.backtest_statistics_result" :key="key">
+          <tr v-for="(value, key) in backtester.backtest_result.statistics" :key="key">
             <td>{{ key }}</td>
             <td>{{ value }}</td>
           </tr>
