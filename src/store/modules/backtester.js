@@ -63,6 +63,25 @@ const backtester = {
       balance: {
         data: { x: [], y: [] },
         type: "line"
+      },
+      trade: {
+        headers: [
+          {
+            text: "成交号",
+            align: "start",
+            value: "tradeid"
+          },
+          { text: "委托号", value: "orderid" },
+          { text: "代码", value: "symbol" },
+          { text: "交易所", value: "exchange" },
+          { text: "方向", value: "direction" },
+          { text: "开平", value: "offset" },
+          { text: "价格", value: "price" },
+          { text: "数量", value: "volume" },
+          { text: "时间", value: "datetime" },
+          { text: "接口", value: "gateway_name" }
+        ],
+        content:[],
       }
     },
 
