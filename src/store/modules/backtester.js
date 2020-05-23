@@ -62,7 +62,6 @@ const backtester = {
       },
       balance: {
         data: { x: [], y: [] },
-        type: "line"
       },
       trade: {
         headers: [

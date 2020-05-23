@@ -7,6 +7,13 @@ import router from './router'
 import axios from './network/axiosPromiseWrap'
 import vuetify from './plugins/vuetify';
 
+import Highchart from "highcharts/highcharts"
+import HighchartsVue from 'highcharts-vue'
+import stockInit from "highcharts/modules/stock"
+
+stockInit(Highchart)
+Vue.use(HighchartsVue)
+
 Vue.config.productionTip = false
 
 new Vue({
@@ -16,3 +23,4 @@ new Vue({
   axios,
   render: h => h(App)
 }).$mount('#app')
+
