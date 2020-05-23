@@ -1,6 +1,6 @@
 <template>
-  <v-card indigo class="mx-auto">
-    <highcharts :options="chartOptions" :callback="resize"></highcharts>
+  <v-card indigo class="mx-auto" height="180">
+    <highcharts :options="chartOptions" ref="balanceChart" style="width:0; height:0"></highcharts>
   </v-card>
 </template>
 
@@ -142,38 +142,46 @@ export default {
   methods:{
     resize(){
       console.log('resize')
-      // this.$refs.Highchart.reflow()
+      this.$refs.balanceChart.$el.style.width='100%'
+      this.$refs.balanceChart.$el.style.height='100%'
+      this.$refs.balanceChart.chart.reflow()
     }
+  },
+  mounted(){
+    console.log("mounted")
+    // this.resize()
+    this.$nextTick(()=>{this.resize()})
+    
   },
   computed: {
     ...mapState({
       backtester: state => state.backtester
     }),
 
-    option() {
-      return {
-        xAxis: {
-          type: "category",
-          data: this.backtester.backtest_result.balance.data.x
-        },
-        yAxis: {
-          type: "value"
-        },
-        series: [
-          {
-            data: this.backtester.backtest_result.balance.data.y,
-            type: "line",
-            smooth: true
-          }
-        ],
-        backgroundColor: "#607d8b"
-      };
-    }
-  },
-  watch: {
-    option() {
-      this.$refs.child.updateOption(this.option);
-    }
+  //   option() {
+  //     return {
+  //       xAxis: {
+  //         type: "category",
+  //         data: this.backtester.backtest_result.balance.data.x
+  //       },
+  //       yAxis: {
+  //         type: "value"
+  //       },
+  //       series: [
+  //         {
+  //           data: this.backtester.backtest_result.balance.data.y,
+  //           type: "line",
+  //           smooth: true
+  //         }
+  //       ],
+  //       backgroundColor: "#607d8b"
+  //     };
+  //   }
+  // },
+  // watch: {
+  //   option() {
+  //     this.$refs.child.updateOption(this.option);
+  //   }
   }
 };
 </script>
