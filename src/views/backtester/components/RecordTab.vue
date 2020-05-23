@@ -1,14 +1,12 @@
 <template>
-  <!-- <v-container fluid> -->
-    <v-row>
-      <v-col>
-        <OrderTableCard />
-      </v-col>
-      <v-col>
-        <TradeTableCard />
-      </v-col>
-    </v-row>
-  <!-- </v-container> -->
+  <v-row>
+    <v-col>
+      <TradeTableCard />
+    </v-col>
+    <v-col>
+      <OrderTableCard />
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -17,6 +15,5 @@ export default {
     OrderTableCard: () => import("./RecordTab/OrderTableCard"),
     TradeTableCard: () => import("./RecordTab/TradeTableCard")
   },
-  data() {}
 };
 </script>

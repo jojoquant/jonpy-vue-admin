@@ -25,7 +25,7 @@ export default {
   name: "BacktesterIndex",
   components: {
     MainTab: () => import("./components/MainTab"),
-    RecordTab:() => import("./components/RecordTab")
+    RecordTab: () => import("./components/RecordTab")
   },
 
   data: () => ({

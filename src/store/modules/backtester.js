@@ -81,7 +81,27 @@ const backtester = {
           { text: "时间", value: "datetime" },
           { text: "接口", value: "gateway_name" }
         ],
-        content:[],
+        content: []
+      },
+      order: {
+        headers: [
+          {
+            text: "委托号",
+            align: "start",
+            value: "orderid"
+          },
+          { text: "代码", value: "symbol" },
+          { text: "交易所", value: "exchange" },
+          { text: "类型", value: "type" },
+          { text: "方向", value: "direction" },
+          { text: "开平", value: "offset" },
+          { text: "价格", value: "price" },
+          { text: "总数量", value: "volume" },
+          { text: "已成交", value: "status" },
+          { text: "时间", value: "datetime" },
+          { text: "接口", value: "gateway_name" }
+        ],
+        content: []
       }
     },
 

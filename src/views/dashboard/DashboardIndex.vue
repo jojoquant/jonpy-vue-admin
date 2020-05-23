@@ -2,7 +2,7 @@
   <v-app id="dashboard">
     <dashboard-app-bar />
     <dashboard-drawer />
-    <v-container fluid fill-height>
+    <v-container fluid fill-height class="d-flex flex-row align-start">
       <router-view></router-view>
     </v-container>
     <dashboard-footer />
