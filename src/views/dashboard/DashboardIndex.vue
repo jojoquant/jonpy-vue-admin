@@ -4,6 +4,18 @@
     <dashboard-drawer />
     <v-container fluid fill-height class="d-flex flex-row align-start">
       <router-view></router-view>
+      <v-btn
+        v-scroll="onScroll"
+        v-show="fab"
+        fab
+        fixed
+        bottom
+        right
+        color="primary"
+        @click="toTop"
+      >
+        <v-icon>keyboard_arrow_up</v-icon>
+      </v-btn>
     </v-container>
     <dashboard-footer />
   </v-app>
@@ -18,10 +30,23 @@ export default {
     DashboardFooter: () => import("./components/Footer")
   },
 
-  data: () => ({}),
+  data: () => ({
+    fab: false
+  }),
 
   created() {
     this.$vuetify.theme.dark = true;
+  },
+
+  methods: {
+    onScroll(e) {
+      if (typeof window === "undefined") return;
+      const top = window.pageYOffset || e.target.scrollTop || 0;
+      this.fab = top > 20;
+    },
+    toTop() {
+      this.$vuetify.goTo(0);
+    }
   }
 };
 </script>
