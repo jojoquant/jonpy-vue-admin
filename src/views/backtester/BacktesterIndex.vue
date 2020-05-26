@@ -11,7 +11,7 @@
       <RecordTab />
     </v-tab-item>
     <v-tab-item>
-      <MainTab />
+      <KlineTab />
     </v-tab-item>
   </v-tabs>
 </template>
@@ -25,7 +25,8 @@ export default {
   name: "BacktesterIndex",
   components: {
     MainTab: () => import("./components/MainTab"),
-    RecordTab: () => import("./components/RecordTab")
+    RecordTab: () => import("./components/RecordTab"),
+    KlineTab: () => import("./components/KlineTab")
   },
 
   data: () => ({
