@@ -3,6 +3,7 @@
     <highcharts
       :constructor-type="'stockChart'"
       :options="chartOptions"
+      :callback="chartCallback"
       ref="child"
       style="width:0; height:0"
     ></highcharts>
@@ -16,6 +17,7 @@ export default {
   data() {
     return {
       name: "kline",
+      chart: null,
       groupingUnits: [
         [
           "week", // unit name
@@ -30,6 +32,9 @@ export default {
       this.$refs.child.$el.style.width = "100%";
       this.$refs.child.$el.style.height = "100%";
       this.$refs.child.chart.reflow();
+    },
+    chartCallback(chart) {
+      this.chart = chart;
     }
   },
   mounted() {
@@ -99,14 +104,14 @@ export default {
         series: [
           {
             type: "candlestick",
-            name: "平安银行",
+            name: this.backtester.submit_data.symbol,
             color: "green",
             lineColor: "green",
             upColor: "red",
             upLineColor: "red",
             tooltip: {},
             // navigatorOptions: {
-            //   color: Highcharts.getOptions().colors[0]
+            //   color: this.chart.getOptions().colors[0]
             // },
             data: this.backtester.backtest_result.kline.ohlc,
             dataGrouping: {

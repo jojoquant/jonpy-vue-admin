@@ -74,7 +74,23 @@ const backtester = {
       },
       kline: {
         ohlc: [],
-        volume: []
+        volume: [],
+      },
+      daily: {
+        headers: [
+          { text: "日期", value: "datetime" },
+          { text: "成交笔数", value: "trade_count" },
+          { text: "开盘持仓", value: "start_pos" },
+          { text: "收盘持仓", value: "end_pos" },
+          { text: "成交额", value: "turnover" },
+          { text: "手续费", value: "commission" },
+          { text: "滑点", value: "slippage" },
+          { text: "交易盈亏", value: "trading_pnl" },
+          { text: "持仓盈亏", value: "holding_pnl" },
+          { text: "总盈亏", value: "total_pnl" },
+          { text: "净盈亏", value: "net_pnl" }
+        ],
+        content: []
       },
       trade: {
         headers: [

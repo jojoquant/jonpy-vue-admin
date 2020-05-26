@@ -15,6 +15,14 @@ import darkUnica from "highcharts/themes/dark-unica";
 darkUnica(Highcharts);
 stockInit(Highcharts);
 Vue.use(HighchartsVue);
+Highcharts.setOptions({
+  global: {
+    timezoneOffset: -8 * 60
+  },
+  lang: {
+    rangeSelectorZoom: ""
+  }
+});
 
 Vue.config.productionTip = false;
 

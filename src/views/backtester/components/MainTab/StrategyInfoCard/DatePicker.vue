@@ -44,15 +44,20 @@ export default {
     ...mapState({
       backtester: state => state.backtester
     }),
-    date(){
-      if (this.label.value === "开始日期") {
-        return this.backtester.submit_data.start_datetime;
-      } else if (this.label.value === "结束日期") {
-        return this.backtester.submit_data.end_datetime;
+    date: {
+      get: function() {
+        if (this.label.value === "开始日期") {
+          return this.backtester.submit_data.start_datetime;
+        } else if (this.label.value === "结束日期") {
+          return this.backtester.submit_data.end_datetime;
+        }
+        let today = new Date().toISOString().substr(0, 10);
+        return today;
+      },
+      set: function(val){
+        this.dateChanged(val)
       }
-      let today = new Date().toISOString().substr(0, 10)
-      return today
-    },
+    }
   },
 
   methods: {

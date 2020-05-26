@@ -4,7 +4,7 @@
       <KlineCard />
     </v-col>
     <v-col cols="12">
-      <TradeTableCard />
+      <DailyTableCard />
     </v-col>
   </v-row>
 </template>
@@ -13,7 +13,7 @@
 export default {
   components: {
     KlineCard: () => import("./KlineTab/KlineCard"),
-    TradeTableCard: () => import("./RecordTab/TradeTableCard")
+    DailyTableCard: () => import("./KlineTab/DailyTableCard")
   },
 };
 </script>
