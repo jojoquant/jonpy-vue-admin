@@ -61,7 +61,20 @@ const backtester = {
         收益回撤比: null
       },
       balance: {
-        data: { x: [], y: [] },
+        data: { x: [], y: [] }
+      },
+      drawdown: {
+        data: { y: [] }
+      },
+      pnl: {
+        data: { y: [] }
+      },
+      pnl_dist: {
+        data: { x: [], y: [] }
+      },
+      kline: {
+        ohlc: [],
+        volume: []
       },
       trade: {
         headers: [

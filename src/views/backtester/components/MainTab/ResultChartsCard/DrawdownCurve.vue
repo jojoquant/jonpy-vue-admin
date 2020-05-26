@@ -2,7 +2,7 @@
   <v-card indigo class="mx-auto" height="200">
     <highcharts
       :options="chartOptions"
-      ref="balanceChart"
+      ref="child"
       style="width:0; height:0"
     ></highcharts>
   </v-card>
@@ -14,14 +14,14 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      name: "balance"
+      name: "drawdown"
     };
   },
   methods: {
     resize() {
-      this.$refs.balanceChart.$el.style.width = "100%";
-      this.$refs.balanceChart.$el.style.height = "100%";
-      this.$refs.balanceChart.chart.reflow();
+      this.$refs.child.$el.style.width = "100%";
+      this.$refs.child.$el.style.height = "100%";
+      this.$refs.child.chart.reflow();
     }
   },
   mounted() {
@@ -47,7 +47,7 @@ export default {
         series: [
           {
             name: "",
-            data: this.backtester.backtest_result.balance.data.y,
+            data: this.backtester.backtest_result.drawdown.data.y,
             _colorIndex: 0,
             _symbolIndex: 0
           }
@@ -60,15 +60,16 @@ export default {
             index: 0,
             min: Math.min.apply(
               null,
-              this.backtester.backtest_result.balance.data.y
+              this.backtester.backtest_result.drawdown.data.y
             ),
             max: Math.max.apply(
               null,
-              this.backtester.backtest_result.balance.data.y
+              this.backtester.backtest_result.drawdown.data.y
             )
           }
         ],
         chart: {
+          type:"area",
           style: {
             fontFamily: '"微软雅黑", Arial, Helvetica, sans-serif',
             color: "#333",
@@ -105,10 +106,10 @@ export default {
     }
   },
 
-  watch: {
-    chartOptions() {
-      this.resize();
-    }
-  }
+  // watch: {
+  //   chartOptions() {
+  //     this.resize();
+  //   }
+  // }
 };
 </script>
