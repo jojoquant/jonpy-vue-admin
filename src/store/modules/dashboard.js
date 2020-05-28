@@ -8,7 +8,7 @@ const dashboard = {
     drawerItemsArray: [
       { icon: "mdi-apple", appName: "数据导入", route: "/dataloader" },
       { icon: "mdi-ipod", appName: "策略回测", route: "/backtester" },
-      { icon: "mdi-apple-icloud", appName: "策略监控" },
+      { icon: "mdi-apple-icloud", appName: "策略监控", route:"/monitor" },
       { icon: "settings", appName: "设置" }
     ]
   },

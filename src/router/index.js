@@ -46,12 +46,12 @@ const routes = [
         }
       },
       {
-        path: "/test",
-        name: "TableInfoCard",
+        path: "/monitor",
+        name: "monitor",
         component: () =>
-          import("../views/dataloader/components/ContractInfoCard.vue"),
+          import("../views/monitor/MonitorIndex.vue"),
         meta: {
-          title: "组件测试"
+          title: "策略监控"
         }
       }
     ]
