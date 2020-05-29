@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-tabs v-model="tab" background-color="red lighten-2" dark>
-      <v-tab v-for="n in length" :key="n"> Item {{ n }} </v-tab>
+      <v-tab v-for="n in length" :key="n"> 未连接 {{ n }} </v-tab>
       <v-tab-item v-for="n in length" :key="n">
         <v-card-text class="text-center">
           
@@ -10,7 +10,7 @@
           <v-btn text @click="length++">Add Tab</v-btn>
         </v-card-text>
 
-        <RecordTab />
+        <MonitorTab />
       </v-tab-item>
     </v-tabs>
   </v-container>
@@ -22,7 +22,7 @@
 export default {
   name: "MonitorIndex",
   components: {
-    RecordTab: () => import("./components/RecordTab")
+    MonitorTab: () => import("./components/MonitorTab")
   },
 
   data: () => ({

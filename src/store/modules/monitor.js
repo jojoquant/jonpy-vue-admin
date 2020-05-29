@@ -7,9 +7,6 @@ const monitor = {
     ws_client_obj: {},
     connected: false,
     error: null,
-    strategy_array: [],
-    strategy_setting: {},
-    progress: 0
   },
 
   getters: {
