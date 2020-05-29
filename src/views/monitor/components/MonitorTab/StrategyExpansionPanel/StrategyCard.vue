@@ -1,7 +1,7 @@
 <template>
   <v-card>
       <v-card-title primary-title>
-          BollStrategy
+          StrategyCard
       </v-card-title>
     <v-row>
       <v-col>

@@ -45,8 +45,8 @@
 <script>
 export default {
   components: {
-    StrategyCard: () => import("./StrategyCard"),
-    StrategySelectCard: () => import("./StrategySelectCard"),
+    StrategyCard: () => import("./StrategyExpansionPanel/StrategyCard"),
+    StrategySelectCard: () => import("./StrategyExpansionPanel/StrategySelectCard"),
   },
 
   data: () => ({

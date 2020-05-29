@@ -4,9 +4,6 @@
       <v-col>
         <RemoteCard />
       </v-col>
-      <!-- <v-col> -->
-        <!-- <StrategySelectCard /> -->
-      <!-- </v-col> -->
     </v-row>
 
     <v-row>
@@ -27,8 +24,6 @@ export default {
   },
   components: {
     RemoteCard: () => import("./MonitorTab/RemoteCard"),
-    // StrategySelectCard: () => import("./MonitorTab/StrategySelectCard"),
-    // StrategyCard: () => import("./MonitorTab/StrategyCard"),
     StrategyExpansionPanel: () => import("./MonitorTab/StrategyExpansionPanel")
   },
   methods: {}
