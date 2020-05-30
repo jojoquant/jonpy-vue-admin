@@ -1,16 +1,21 @@
 <template>
   <v-container fluid>
-    <v-tabs v-model="tab" background-color="red lighten-2" dark>
-      <v-tab v-for="n in length" :key="n">
+    <v-tabs v-model="tab" background-color="blue-grey darken-3">
+      <v-tab v-for="item in servers" :key="item.name">
         <v-badge color="deep-purple accent-4" icon="mdi-vuetify">
-          未连接 {{ n }}
+          {{ item.name }}({{ item.connect_status ? "已连接" : "未连接" }})
         </v-badge>
       </v-tab>
-      <v-tab-item v-for="n in length" :key="n">
-        <v-card-text class="text-center">
-          <v-btn text @click="length--">Remove Tab</v-btn>
+
+      <v-tab-item v-for="item in servers" :key="item.name">
+        <v-card-text class="text-right">
+          <v-btn color="red" :value="item.name" @click="removeTab">
+            <v-icon>mdi-minus</v-icon>
+            删除当前面板
+          </v-btn>
           <v-divider class="mx-4" vertical></v-divider>
-          <v-btn text @click="length++">Add Tab</v-btn>
+          <!-- <v-btn @click="addTab">Add Tab</v-btn> -->
+          <AddTabDialogButton />
         </v-card-text>
 
         <MonitorTab />
@@ -20,20 +25,45 @@
 </template>
 
 <script>
+import _ from "lodash";
+
 export default {
   name: "MonitorIndex",
   components: {
-    MonitorTab: () => import("./components/MonitorTab")
+    MonitorTab: () => import("./components/MonitorTab"),
+    AddTabDialogButton: () => import("./components/AddTabDialogButton")
   },
 
   data: () => ({
     length: 3,
-    tab: null
+    tab: null,
+    servers: [
+      { name: "aliyun", connect_status: true },
+      { name: "aliyun2", connect_status: false },
+      { name: "aliyun3", connect_status: false }
+    ]
   }),
 
+  methods: {
+    removeTab(event) {
+      if (this.servers.length == 1) {
+        return;
+      }
+      this.servers = _.remove(this.servers, item => {
+        return item.name != event.currentTarget.value;
+      });
+    },
+    addTab() {
+      console.log(this.tab);
+    }
+  },
+
   watch: {
-    length(val) {
-      this.tab = val - 1;
+    servers: {
+      handler(newValue, oldValue) {
+        console.log("watch servers:", newValue, oldValue);
+      },
+      deep: true
     }
   }
 };

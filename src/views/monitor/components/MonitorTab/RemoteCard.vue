@@ -1,19 +1,36 @@
 <template>
   <v-card>
     <v-row>
-      <v-col cols="4">
-        <v-text-field v-model="ip" dense outlined rounded label="IP">
-        </v-text-field>
+      <v-col cols="7">
+        <v-card>
+          <v-row>
+            <v-col cols="7">
+              <v-text-field v-model="ip" dense outlined rounded label="IP">
+              </v-text-field>
+            </v-col>
+            <v-col cols="5">
+              <v-text-field v-model="port" dense outlined rounded label="Port">
+              </v-text-field>
+            </v-col>
+          </v-row>
+        </v-card>
       </v-col>
-      <v-col cols="3">
-        <v-text-field v-model="port" dense outlined rounded label="Port">
-        </v-text-field>
-      </v-col>
-      <v-col cols="2">
-        <v-btn color="success" @click="connect">connect</v-btn>
-      </v-col>
-      <v-col cols="3">
-        <v-btn color="error" @click="tab_disconnect">disconnect</v-btn>
+
+      <v-col cols="5">
+        <v-card>
+          <v-row>
+            <v-col>
+              <v-btn color="success" rounded @click="connect">connect</v-btn>
+            </v-col>
+            <v-col>
+              <v-btn color="error" rounded @click="tab_disconnect"
+                >disconnect</v-btn
+              >
+            </v-col>
+          </v-row>
+
+          <!-- <v-divider class="mx-4" vertical></v-divider> -->
+        </v-card>
       </v-col>
     </v-row>
   </v-card>
