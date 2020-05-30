@@ -2,8 +2,8 @@
   <v-container fluid>
     <v-tabs v-model="tab" background-color="blue-grey darken-3">
       <v-tab v-for="item in servers" :key="item.name">
-        <v-badge color="deep-purple accent-4" icon="mdi-vuetify">
-          {{ item.name }}({{ item.connect_status ? "已连接" : "未连接" }})
+        <v-badge :color="item.connect_status?'green':'red'" :content="item.stategy_running_num">
+          {{ item.name }}
         </v-badge>
       </v-tab>
 
@@ -38,9 +38,9 @@ export default {
     length: 3,
     tab: null,
     servers: [
-      { name: "aliyun", connect_status: true },
-      { name: "aliyun2", connect_status: false },
-      { name: "aliyun3", connect_status: false }
+      { name: "aliyun", connect_status: true , stategy_running_num:10},
+      { name: "aliyun2", connect_status: false ,stategy_running_num:0},
+      { name: "aliyun3", connect_status: false ,stategy_running_num:0}
     ]
   }),
 
