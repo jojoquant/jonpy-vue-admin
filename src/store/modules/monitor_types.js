@@ -7,6 +7,7 @@ export default {
   delete_ws_client:"delete_ws_client",
   add_server:"add_server",
   remove_server:"remove_server",
+  edit_server_name:"edit_server_name",
   updateStrategy: "updateStrategy",
   changeExchanges: "changeExchanges",
 };

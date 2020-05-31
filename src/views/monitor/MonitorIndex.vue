@@ -14,7 +14,8 @@
             删除当前面板
           </v-btn>
           <v-divider class="mx-4" vertical></v-divider>
-          <!-- <v-btn @click="addTab">Add Tab</v-btn> -->
+          <EditTabDialogButton :tab_name="item.name" />
+          <v-divider class="mx-4" vertical></v-divider>
           <AddTabDialogButton />
         </v-card-text>
 
@@ -33,7 +34,8 @@ export default {
   name: "MonitorIndex",
   components: {
     MonitorTab: () => import("./components/MonitorTab"),
-    AddTabDialogButton: () => import("./components/AddTabDialogButton")
+    AddTabDialogButton: () => import("./components/AddTabDialogButton"),
+    EditTabDialogButton: () => import("./components/EditTabDialogButton"),
   },
 
   data: () => ({
@@ -56,13 +58,7 @@ export default {
         return;
       }
       this.remove_server(event.currentTarget.value)
-      // this.servers = _.remove(this.servers, item => {
-      //   return item.name != event.currentTarget.value;
-      // });
     },
-    addTab() {
-      console.log(this.tab);
-    }
   },
 
   watch: {

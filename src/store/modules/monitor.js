@@ -105,14 +105,32 @@ const monitor = {
 
     [self.add_server](state, obj) {
       console.log(obj);
-      state.servers = _.concat(state.servers,obj);
+      state.servers = _.concat(state.servers, obj);
     },
 
     [self.remove_server](state, val) {
-      console.log(val);
       state.servers = _.remove(state.servers, item => {
         return item.name != val;
       });
+    },
+
+    [self.edit_server_name](state, { old_name, new_name }) {
+      console.log("old_name, new_name : ", old_name, new_name);
+      // 更新servers Array
+      state.servers.map(item => {
+        if (item.name == old_name) {
+          item.name = new_name;
+        }
+        return item;
+      });
+
+      // 更新ws_client_obj
+      for (let ws_client in state.ws_client_obj) {
+        if (state.ws_client_obj[ws_client].tab_name == old_name) {
+          state.ws_client_obj[ws_client].tab_name = new_name;
+          console.log(state.ws_client_obj);
+        }
+      }
     },
 
     [self.update_dialog_strategy_setting](state, obj) {
