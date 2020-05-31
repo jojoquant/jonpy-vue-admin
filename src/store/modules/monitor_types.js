@@ -5,6 +5,7 @@ export default {
   set_error: "set_error",
   disconnect: "disconnect",
   delete_ws_client:"delete_ws_client",
+  remove_server:"remove_server",
   updateStrategy: "updateStrategy",
   changeExchanges: "changeExchanges",
 };

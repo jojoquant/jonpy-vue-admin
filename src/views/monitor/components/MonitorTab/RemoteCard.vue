@@ -41,6 +41,9 @@ import vuex_monitor_types from "../../../../store/modules/monitor_types";
 import { mapActions } from "vuex";
 
 export default {
+  props: {
+    tab_name: String
+  },
   data() {
     return {
       ip: "192.168.0.104",
@@ -53,9 +56,9 @@ export default {
       vuex_monitor_types.disconnect
     ]),
     connect() {
-      console.log("Connect websocket:", this.ip, this.port);
+      console.log("Connect websocket:", this.ip, this.port, "tab_name:", this.tab_name);
       let wss_url = `ws://${this.ip}:${this.port}/monitor`;
-      this.__init__(wss_url);
+      this.__init__({wss_url, tab_name:this.tab_name});
     },
     tab_disconnect() {
       // 注意不要和vuex中的disconnect重名, 否则会形成递归

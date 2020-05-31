@@ -1,13 +1,13 @@
 <template>
   <v-container fluid>
     <v-tabs v-model="tab" background-color="blue-grey darken-3">
-      <v-tab v-for="item in servers" :key="item.name">
+      <v-tab v-for="item in monitor.servers" :key="item.name">
         <v-badge :color="item.connect_status?'green':'red'" :content="item.stategy_running_num">
           {{ item.name }}
         </v-badge>
       </v-tab>
 
-      <v-tab-item v-for="item in servers" :key="item.name">
+      <v-tab-item v-for="item in monitor.servers" :key="item.name">
         <v-card-text class="text-right">
           <v-btn color="red" :value="item.name" @click="removeTab">
             <v-icon>mdi-minus</v-icon>
@@ -18,14 +18,16 @@
           <AddTabDialogButton />
         </v-card-text>
 
-        <MonitorTab />
+        <MonitorTab :tab_name="item.name" />
       </v-tab-item>
     </v-tabs>
   </v-container>
 </template>
 
 <script>
-import _ from "lodash";
+
+import vuex_monitor_types from "../../store/modules/monitor_types"
+import {mapState,mapMutations} from "vuex"
 
 export default {
   name: "MonitorIndex",
@@ -37,21 +39,26 @@ export default {
   data: () => ({
     length: 3,
     tab: null,
-    servers: [
-      { name: "aliyun", connect_status: true , stategy_running_num:10},
-      { name: "aliyun2", connect_status: false ,stategy_running_num:0},
-      { name: "aliyun3", connect_status: false ,stategy_running_num:0}
-    ]
   }),
 
+  computed:{
+    ...mapState({
+      monitor: state => state.monitor
+    })
+  },
+
   methods: {
+    ...mapMutations(vuex_monitor_types.name, [
+      vuex_monitor_types.remove_server
+    ]),
     removeTab(event) {
-      if (this.servers.length == 1) {
+      if (this.monitor.servers.length == 1) {
         return;
       }
-      this.servers = _.remove(this.servers, item => {
-        return item.name != event.currentTarget.value;
-      });
+      this.remove_server(event.currentTarget.value)
+      // this.servers = _.remove(this.servers, item => {
+      //   return item.name != event.currentTarget.value;
+      // });
     },
     addTab() {
       console.log(this.tab);

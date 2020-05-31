@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row>
       <v-col>
-        <RemoteCard />
+        <RemoteCard :tab_name="tab_name" />
       </v-col>
     </v-row>
 
@@ -19,6 +19,9 @@
 
 <script>
 export default {
+  props:{
+    tab_name:String,
+  },
   data() {
     return {};
   },
