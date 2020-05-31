@@ -103,6 +103,11 @@ const monitor = {
       delete state.ws_client_obj[key];
     },
 
+    [self.add_server](state, obj) {
+      console.log(obj);
+      state.servers = _.concat(state.servers,obj);
+    },
+
     [self.remove_server](state, val) {
       console.log(val);
       state.servers = _.remove(state.servers, item => {

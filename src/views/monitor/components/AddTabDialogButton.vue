@@ -26,29 +26,23 @@
 </template>
 
 <script>
+import vuex_monitor_types from "../../../store/modules/monitor_types";
+import { mapState, mapMutations } from "vuex";
+
 export default {
   data: () => ({
     dialog: false,
-
-    desserts: [],
     editedIndex: -1,
     editedItem: {
       name: "",
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0
+      connect_status: false,
+      stategy_running_num: 0
     },
-    defaultItem: {
-      name: "",
-      calories: 0,
-      fat: 0,
-      carbs: 0,
-      protein: 0
-    }
   }),
 
-  computed: {},
+  computed: {
+    ...mapState({ monitor: state => state.monitor })
+  },
 
   watch: {
     dialog(val) {
@@ -56,22 +50,10 @@ export default {
     }
   },
 
-  created() {
-    // this.initialize();
-  },
-
   methods: {
-    editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialog = true;
-    },
-
-    deleteItem(item) {
-      const index = this.desserts.indexOf(item);
-      confirm("Are you sure you want to delete this item?") &&
-        this.desserts.splice(index, 1);
-    },
+    ...mapMutations(vuex_monitor_types.name, [
+      vuex_monitor_types.add_server
+    ]),
 
     close() {
       this.dialog = false;
@@ -82,11 +64,7 @@ export default {
     },
 
     save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem);
-      } else {
-        this.desserts.push(this.editedItem);
-      }
+      this.add_server(this.editedItem)
       this.close();
     }
   }
