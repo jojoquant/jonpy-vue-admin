@@ -38,7 +38,7 @@
 
 <script>
 import vuex_monitor_types from "../../../../store/modules/monitor_types";
-import { mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   props: {
@@ -46,19 +46,46 @@ export default {
   },
   data() {
     return {
-      ip: "192.168.0.104",
-      port: "8888"
+    //   ip: "192.168.0.104",
+    //   port: "8888"
     };
   },
+
+  computed: {
+    ...mapState({
+      monitor: state => state.monitor
+    }),
+    ip() {
+      return this.monitor.servers.map(item => {
+        if (item.name === this.tab_name) {
+          return item.wss_url.ip;
+        }
+      })[0];
+    },
+    port() {
+      return this.monitor.servers.map(item => {
+        if (item.name === this.tab_name) {
+          return item.wss_url.port;
+        }
+      })[0];
+    }
+  },
+
   methods: {
     ...mapActions(vuex_monitor_types.name, [
       vuex_monitor_types.__init__,
       vuex_monitor_types.disconnect
     ]),
     connect() {
-      console.log("Connect websocket:", this.ip, this.port, "tab_name:", this.tab_name);
-      let wss_url = `ws://${this.ip}:${this.port}/monitor`;
-      this.__init__({wss_url, tab_name:this.tab_name});
+      console.log(
+        "Connect websocket:",
+        this.ip,
+        this.port,
+        "tab_name:",
+        this.tab_name
+      );
+    //   let wss_url = `ws://${this.ip}:${this.port}/monitor`;
+      this.__init__({ ip:this.ip, port:this.port, tab_name: this.tab_name });
     },
     tab_disconnect() {
       // 注意不要和vuex中的disconnect重名, 否则会形成递归

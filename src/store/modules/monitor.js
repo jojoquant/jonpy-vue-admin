@@ -3,76 +3,62 @@ import _ from "lodash";
 
 const monitor = {
   namespaced: true,
-
   state: {
-    servers: [
-      { name: "aliyun", connect_status: false, stategy_running_num: 10 },
-      { name: "aliyun2", connect_status: false, stategy_running_num: 2 },
-      { name: "aliyun3", connect_status: false, stategy_running_num: 0 }
-    ],
-    ws_clients: [
-      {
-        ws_client: null,
-        server_name: null,
-        wss_url: "",
-        engines: [{ name: "默认", stategy_arr: [] }]
-      }
-    ],
-    error: null
+    servers: {
+      aliyun1: self.default_server,
+      aliyun2: self.default_server
+    },
+    error: null,
   },
 
   getters: {
-    // ws_client: state => state.ws_client
+    // wss_client: state => state.wss_client
   },
 
   mutations: {
-    [self.__init__](state, { wss_url, tab_name }) {
-      console.log("In vuex __init__ mutation:", wss_url, tab_name);
-      for (let item in state.ws_clients) {
-        if (wss_url === item.wss_url) {
-          console.log(`${wss_url} has been in ws_clients of vuex`);
+    [self.__init__](state, { ip, port, tab_name }) {
+      console.log("In vuex __init__ mutation:", ip, port, tab_name);
+      // 遍历当前servers array, 如果wss_url在array中, 退出
+      for (let item in state.servers) {
+        console.log("item.wss_url.value: ", item.wss_url.value());
+        if (ip === item.wss_url.ip && port === item.wss_url.port) {
+          console.log(`${ip}:${port} has been in ws_clients of vuex`);
           return;
         }
       }
 
-      let ws_client = new WebSocket(wss_url);
-      ws_client.onopen = event => {
+      // wss_url不在array中, 建立wss_client
+      let wss_url = `ws://${ip}:${port}/monitor`;
+      state.server;
+      let wss_client = new WebSocket(wss_url);
+
+      wss_client.onopen = event => {
         console.log(`vuex ${self.name} websocket connect successful!`);
         console.log(event.target.url);
         let wss_url = event.target.url;
-        let cur_tab_name = state.ws_clients.filter(item => {
-          return item.wss_url === wss_url;
-        })[0].server_name;
 
         state.servers.map(item => {
-          console.log(item, cur_tab_name);
-          if (item.name == cur_tab_name) {
+          if (item.wss_url === wss_url) {
             item.connect_status = true;
           }
           return item;
         });
       };
 
-      ws_client.onerror = err => {
+      wss_client.onerror = err => {
         console.log(`vuex ${self.name} websocket error!`);
         console.log(err);
         state.error = err;
       };
 
-      ws_client.onclose = event => {
+      wss_client.onclose = event => {
         console.log(`vuex ${self.name} websocket closed!`);
-        // console.log(event);
-        // console.log(state.ws_client_obj);
-
         // 根据url key 去 servers 遍历, 更改对应tab的 connect_status
         let wss_url = event.target.url;
-        let cur_tab_name = state.ws_clients.filter(item => {
-          return item.wss_url === wss_url;
-        })[0].server_name;
 
         state.servers.map(item => {
           // console.log(item, cur_tab_name)
-          if (item.name == cur_tab_name) {
+          if (item.wss_url == wss_url) {
             item.connect_status = false;
           }
           return item;
@@ -81,12 +67,10 @@ const monitor = {
         // 这里如果这么写, 功能能实现, 但是vuex浏览器插件无法看到效果
         // delete state.ws_client_obj[event.target.url]
         // 'monitor/delete_ws_client'
-        this.commit(`${self.name}/${self.delete_ws_client}`, event.target.url);
-
-        console.log(state.ws_client_obj);
+        // this.commit(`${self.name}/${self.delete_ws_client}`, event.target.url);
       };
 
-      ws_client.onmessage = event => {
+      wss_client.onmessage = event => {
         const re_obj_data = JSON.parse(event.data);
         console.log("recv data");
         console.log(re_obj_data);
@@ -94,22 +78,22 @@ const monitor = {
       };
 
       let update_obj = {
-        ws_client: ws_client,
+        wss_client: wss_client,
         server_name: tab_name,
         wss_url: wss_url
       };
-      if (state.ws_clients[0].wss_url === "") {
-        // update_obj.engines = [{ name: "默认" , stategy_arr:[]}]
-        Object.assign(state.ws_clients[0], update_obj);
-        return;
-      }
+      // if (state.ws_clients[0].wss_url === "") {
+      //   // update_obj.engines = [{ name: "默认" , stategy_arr:[]}]
+      //   Object.assign(state.ws_clients[0], update_obj);
+      //   return;
+      // }
 
       update_obj.engines = [{ name: "默认", stategy_arr: [] }];
       state.ws_clients = _.concat(state.ws_clients, update_obj);
     },
 
     [self.send](state, msg) {
-      state.ws_client.send(msg);
+      state.wss_client.send(msg);
     },
 
     [self.set_error](state, error) {
@@ -120,39 +104,32 @@ const monitor = {
       console.log("ccccccclose");
       state.ws_clients.map(item => {
         if (item.wss_url === wss_url) {
-          item.ws_client.close();
+          item.wss_client.close();
         }
-        return item
+        return item;
       });
     },
 
-    [self.delete_ws_client](state, url) {
-      // delete state.ws_client_obj[key];
-      state.ws_clients = _.remove(state.ws_clients, item => {
-        return item.wss_url !== url;
-      });
+    // [self.delete_ws_client](state, url) {
+    //   // delete state.ws_client_obj[key];
+    //   state.ws_clients = _.remove(state.ws_clients, item => {
+    //     return item.wss_url !== url;
+    //   });
 
-      if(state.ws_clients.length === 0){
-        state.ws_clients = [
-          {
-            ws_client: null,
-            server_name: null,
-            wss_url: "",
-            engines: [{ name: "默认", stategy_arr: [] }]
-          }
-        ]
+    //   if (state.ws_clients.length === 0) {
+    //     state.ws_clients = ws_clients_default_arr;
+    //   }
+    // },
+
+    [self.add_server](state, { key, obj }) {
+      console.log(key, obj);
+      if (!(key in state.servers)) {
+        state.servers[key] = obj;
       }
     },
 
-    [self.add_server](state, obj) {
-      console.log(obj);
-      state.servers = _.concat(state.servers, obj);
-    },
-
     [self.remove_server](state, val) {
-      state.servers = _.remove(state.servers, item => {
-        return item.name !== val;
-      });
+      delete state.servers[val];
     },
 
     [self.edit_server_name](state, { old_name, new_name }) {
@@ -166,9 +143,9 @@ const monitor = {
       });
 
       // 更新ws_client_obj
-      for (let ws_client in state.ws_clients) {
-        if (ws_client.tab_name == old_name) {
-          ws_client.tab_name = new_name;
+      for (let wss_client in state.ws_clients) {
+        if (wss_client.tab_name == old_name) {
+          wss_client.tab_name = new_name;
           console.log(state.ws_clients);
         }
       }

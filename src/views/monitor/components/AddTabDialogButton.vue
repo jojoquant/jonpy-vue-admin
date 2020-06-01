@@ -9,10 +9,7 @@
     <v-card>
       <v-card-text>
         <v-container>
-          <v-text-field
-            v-model="editedItem.name"
-            label="主机名称"
-          ></v-text-field>
+          <v-text-field v-model="tab_name" label="主机名称"></v-text-field>
         </v-container>
       </v-card-text>
 
@@ -33,11 +30,10 @@ export default {
   data: () => ({
     dialog: false,
     editedIndex: -1,
+    tab_name: "main",
     editedItem: {
-      name: "",
-      connect_status: false,
-      stategy_running_num: 0
-    },
+      ...vuex_monitor_types.default_server
+    }
   }),
 
   computed: {
@@ -51,9 +47,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations(vuex_monitor_types.name, [
-      vuex_monitor_types.add_server
-    ]),
+    ...mapMutations(vuex_monitor_types.name, [vuex_monitor_types.add_server]),
 
     close() {
       this.dialog = false;
@@ -64,7 +58,24 @@ export default {
     },
 
     save() {
-      this.add_server(this.editedItem)
+      let key = this.tab_name;
+      let obj = this.editedItem;
+
+      if (!(key in this.monitor.servers)) {
+        this.add_server({ key, obj });
+        this.$notify({
+          title: "成功",
+          message: `新增主机面板 ${key}`,
+          type: "success"
+        });
+      } else {
+        this.$notify({
+          title: "失败",
+          message: `主机面板 ${key} 已存在`,
+          type: "error"
+        });
+      }
+
       this.close();
     }
   }

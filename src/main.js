@@ -10,10 +10,15 @@ import vuetify from "./plugins/vuetify";
 import Highcharts from "highcharts/highcharts";
 import HighchartsVue from "highcharts-vue";
 import stockInit from "highcharts/modules/stock";
+// import stockTools from "highcharts/modules/stock-tools";
 import darkUnica from "highcharts/themes/dark-unica";
+
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 
 darkUnica(Highcharts);
 stockInit(Highcharts);
+// stockTools(Highcharts)
 Vue.use(HighchartsVue);
 Highcharts.setOptions({
   global: {
@@ -23,6 +28,8 @@ Highcharts.setOptions({
     rangeSelectorZoom: ""
   }
 });
+
+Vue.use(ElementUI); 
 
 Vue.config.productionTip = false;
 
