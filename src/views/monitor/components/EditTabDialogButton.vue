@@ -35,18 +35,16 @@ import vuex_monitor_types from "../../../store/modules/monitor_types";
 import { mapState, mapMutations } from "vuex";
 
 export default {
-  props:{
-    tab_name:String
+  props: {
+    tab_name: String
   },
 
   data: () => ({
     dialog: false,
     editedIndex: -1,
     editedItem: {
-      name: "",
-      connect_status: false,
-      stategy_running_num: 0
-    },
+      name: ""
+    }
   }),
 
   computed: {
@@ -73,7 +71,30 @@ export default {
     },
 
     save() {
-      this.edit_server_name({old_name:this.tab_name, new_name:this.editedItem.name})
+      if (this.editedItem.name in this.monitor.servers) {
+        this.$notify({
+          title: "失败",
+          message: `主机面板 ${this.editedItem.name} 已存在`,
+          type: "error"
+        });
+      } else if (this.editedItem.name === "") {
+        this.$notify({
+          title: "失败",
+          message: `主机面板 ${this.editedItem.name} 不能为空`,
+          type: "error"
+        });
+      } else {
+        this.edit_server_name({
+          old_name: this.tab_name,
+          new_name: this.editedItem.name
+        });
+
+        this.$notify({
+          title: "成功",
+          message: `主机面板 ${this.tab_name} 重命名为 ${this.editedItem.name}`,
+          type: "success"
+        });
+      }
       this.close();
     }
   }

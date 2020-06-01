@@ -8,7 +8,7 @@ const monitor = {
       aliyun1: self.default_server,
       aliyun2: self.default_server
     },
-    error: null,
+    error: null
   },
 
   getters: {
@@ -29,7 +29,7 @@ const monitor = {
 
       // wss_url不在array中, 建立wss_client
       let wss_url = `ws://${ip}:${port}/monitor`;
-      state.server;
+      // state.server;
       let wss_client = new WebSocket(wss_url);
 
       wss_client.onopen = event => {
@@ -133,22 +133,13 @@ const monitor = {
     },
 
     [self.edit_server_name](state, { old_name, new_name }) {
-      console.log("old_name, new_name : ", old_name, new_name);
-      // 更新servers Array
-      state.servers.map(item => {
-        if (item.name == old_name) {
-          item.name = new_name;
+      // console.log("old_name, new_name : ", old_name, new_name);
+      state.servers = _.mapKeys(state.servers, (_, key) => {
+        if (key === old_name) {
+          return new_name;
         }
-        return item;
+        return key;
       });
-
-      // 更新ws_client_obj
-      for (let wss_client in state.ws_clients) {
-        if (wss_client.tab_name == old_name) {
-          wss_client.tab_name = new_name;
-          console.log(state.ws_clients);
-        }
-      }
     },
 
     [self.update_dialog_strategy_setting](state, obj) {
