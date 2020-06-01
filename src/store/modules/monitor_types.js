@@ -4,7 +4,6 @@ const default_server = {
   wss_url: {
     ip: "192.168.0.104",
     port: "8888",
-    value: ""
   },
   wss_client: null,
   engines: [{ name: "默认", strategy_arr: [] }]
@@ -21,6 +20,8 @@ export default {
   add_server: "add_server",
   remove_server: "remove_server",
   edit_server_name: "edit_server_name",
+  update_ip:"update_ip",
+  update_port:"update_port",
   updateStrategy: "updateStrategy",
   changeExchanges: "changeExchanges"
 };

@@ -1,13 +1,13 @@
 <template>
   <v-container fluid>
     <v-tabs v-model="tab" background-color="blue-grey darken-3">
-      <v-tab v-for="(item,key) in monitor.servers" :key="key">
+      <v-tab v-for="(item,key) in servers" :key="key">
         <v-badge :color="item.connect_status?'green':'red'" :content="item.stategy_running_num">
           {{ key }}
         </v-badge>
       </v-tab>
 
-      <v-tab-item v-for="(item,key) in monitor.servers" :key="key">
+      <v-tab-item v-for="(item,key) in servers" :key="key">
         <v-card-text class="text-right">
           <v-btn color="red" :value="key" @click="removeTab">
             <v-icon>mdi-minus</v-icon>
@@ -44,7 +44,7 @@ export default {
 
   computed:{
     ...mapState({
-      monitor: state => state.monitor
+      servers: state => state.monitor.servers
     })
   },
 
@@ -53,8 +53,13 @@ export default {
       vuex_monitor_types.remove_server
     ]),
     removeTab(event) {
-      if (_.keys(this.monitor.servers).length == 1) {
-        console.log("tab num cannot be set to 0")
+      console.log("this.tab: ",this.tab)
+      if (_.keys(this.servers).length == 1) {
+        this.$notify({
+          title: "警告",
+          message: `主机面板总数不能为 0`,
+          type: "warning"
+        });
         return;
       }
       console.log(event.currentTarget.value)
