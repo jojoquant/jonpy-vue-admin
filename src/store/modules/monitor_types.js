@@ -6,7 +6,8 @@ const default_server = {
     port: "8888",
   },
   wss_client: null,
-  engines: [{ name: "默认", strategy_arr: [] }]
+  strategy_select:[],
+  engines: [{ name: "0", strategy_arr: [] }]
 };
 
 export default {
@@ -23,6 +24,9 @@ export default {
   update_ip:"update_ip",
   update_port:"update_port",
   update_tab:"update_tab",
-  updateStrategy: "updateStrategy",
+  update_strategy: "update_strategy",
+  add_engine:"add_engine",
+  edit_engine:"edit_engine",
+  remove_engine:"remove_engine",
   changeExchanges: "changeExchanges"
 };

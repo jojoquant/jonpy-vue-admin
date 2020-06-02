@@ -1,40 +1,46 @@
 <template>
   <v-card>
     <v-row align-item-center>
-      <v-col cols="5">
+      <v-col cols="12">
         <v-select
           v-model="value"
-          :items="items"
+          :items="servers[this.tab_name].strategy_select"
           dense
-          label="Chips"
-          chips
+          label="可选策略"
+          small-chips
+          solo
           deletable-chips
           multiple
           outlined
         ></v-select>
-      </v-col>
-      <v-col cols="1">
         <v-btn color="success" @click="add_strategy">添加策略</v-btn>
+        <v-spacer></v-spacer>
+        <v-btn color="success" @click="add_strategy">启动策略</v-btn>
       </v-col>
     </v-row>
   </v-card>
 </template>
 
 <script>
-// import vuex_monitor_types from "../../../../store/modules/monitor_types";
-
+import { mapState } from "vuex";
 
 export default {
+  props: {
+    tab_name: String
+  },
   data() {
     return {
-      items: ["fodddddo", "bardddddd", "fizddddz", "buddddddzz"],
-      value: []
+      value:[]
     };
   },
+
+  computed: {
+    ...mapState({
+      servers: state => state.monitor.servers
+    })
+  },
   methods: {
-    add_strategy(){
-      
-    }
+    add_strategy() {}
   }
 };
 </script>

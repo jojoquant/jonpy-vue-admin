@@ -51,7 +51,7 @@ const monitor = {
             title: "错误",
             message: `${tab_name}\n${state.servers[tab_name].wss_url.ip}:${state.servers[tab_name].wss_url.port} 连接错误`,
             type: "error"
-          })
+          });
         };
 
         wss_client.onclose = event => {
@@ -63,14 +63,25 @@ const monitor = {
             title: "信息",
             message: `${tab_name}\n${state.servers[tab_name].wss_url.ip}:${state.servers[tab_name].wss_url.port} 连接关闭`,
             type: "info"
-          })
+          });
         };
 
         wss_client.onmessage = event => {
           const re_obj_data = JSON.parse(event.data);
           console.log("recv data");
           console.log(re_obj_data);
-          Object.assign(state, re_obj_data);
+
+          Object.assign(state.servers[tab_name], re_obj_data)
+          // if ("strategy_arr" in re_obj_data) {
+          //   state.servers[tab_name].engines.map((_, index) => {
+          //     // debugger
+          //     // Object.assign(item, re_obj_data);
+          //     // state.servers[tab_name].engines[index].strategy_arr = re_obj_data.strategy_arr
+          //     let payload = { tab_name, index, strategy_arr:re_obj_data.strategy_arr };
+          //     this.commit(`${self.name}/${self.update_strategy}`, payload);
+          //   });
+          // }
+
         };
       }
     },
@@ -123,6 +134,43 @@ const monitor = {
 
     [self.update_tab](state, val) {
       state.tab += val;
+    },
+
+    [self.update_strategy](state, payload) {
+      let { tab_name, index, strategy_arr } = payload;
+      state.servers[tab_name].engines[index].strategy_arr = strategy_arr;
+    },
+
+    [self.add_engine](state, payload){
+      let {tab_name} = payload
+      console.log("In vuex add_engine , tab_name:", tab_name)
+      state.servers[tab_name].engines.push({ name: `${state.servers[tab_name].engines.length}`, strategy_arr: [] })
+    },
+
+    [self.edit_engine](state, payload){
+      let {tab_name} = payload
+      console.log("In vuex edit_engine , tab_name:", tab_name)
+      // state.servers[tab_name].engines.push({ name: `${engine_index}`, strategy_arr: [] })
+    },
+
+    [self.remove_engine](state, payload){
+      console.log("In vuex remove_engine , tab_name, engine_index:", tab_name, engine_index)
+      let {tab_name, engine_index, notify_callback} = payload
+      if(state.servers[tab_name].engines.length===1){
+        notify_callback({
+          title: "失败",
+          message: `引擎数目最少为 1`,
+          type: "error"
+        })
+        return
+      }
+      let engine_name = state.servers[tab_name].engines[engine_index].name
+      state.servers[tab_name].engines.splice(engine_index, 1)
+      notify_callback({
+        title: "成功",
+        message: `删除 ${engine_name}号引擎`,
+        type: "success"
+      })
     },
 
     [self.update_dialog_strategy_setting](state, obj) {
