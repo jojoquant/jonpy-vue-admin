@@ -103,7 +103,8 @@ export default {
         "tab_name:",
         this.tab_name
       );
-      this.__init__(this.tab_name);
+      let payload = {tab_name:this.tab_name, notify_callback:this.$notify}
+      this.__init__(payload);
     },
     tab_disconnect() {
       // 注意不要和vuex中的disconnect重名, 否则会形成递归

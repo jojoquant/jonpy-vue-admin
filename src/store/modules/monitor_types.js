@@ -22,6 +22,7 @@ export default {
   edit_server_name: "edit_server_name",
   update_ip:"update_ip",
   update_port:"update_port",
+  update_tab:"update_tab",
   updateStrategy: "updateStrategy",
   changeExchanges: "changeExchanges"
 };

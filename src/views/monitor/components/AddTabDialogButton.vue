@@ -47,7 +47,10 @@ export default {
   },
 
   methods: {
-    ...mapMutations(vuex_monitor_types.name, [vuex_monitor_types.add_server]),
+    ...mapMutations(vuex_monitor_types.name, [
+      vuex_monitor_types.add_server,
+      vuex_monitor_types.update_tab
+    ]),
 
     close() {
       this.dialog = false;
@@ -59,10 +62,12 @@ export default {
 
     save() {
       let key = this.tab_name;
-      let obj = this.editedItem;
+      // 这里需要用深拷贝
+      let obj = JSON.parse(JSON.stringify(this.editedItem));
 
       if (!(key in this.monitor.servers)) {
         this.add_server({ key, obj });
+        this.update_tab(1);
         this.$notify({
           title: "成功",
           message: `新增主机面板 ${key}`,

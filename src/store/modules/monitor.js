@@ -8,6 +8,7 @@ const monitor = {
       aliyun1: JSON.parse(JSON.stringify(self.default_server)),
       aliyun2: JSON.parse(JSON.stringify(self.default_server))
     },
+    tab: 0,
     error: null
   },
 
@@ -16,7 +17,8 @@ const monitor = {
   },
 
   mutations: {
-    [self.__init__](state, tab_name) {
+    [self.__init__](state, payload) {
+      let { tab_name, notify_callback } = payload;
       // 遍历当前servers array, 如果wss_url在array中, 退出
       console.log("In vuex __init__ mutation:", tab_name);
 
@@ -28,38 +30,40 @@ const monitor = {
         let wss_client = new WebSocket(wss_url);
         state.servers[tab_name].wss_client = wss_client;
 
-        wss_client.onopen = event => {
+        wss_client.onopen = () => {
           console.log(`vuex ${self.name} websocket connect successful!`);
-          console.log(event.target.url);
-          
-          let wss_url = event.target.url;
-
-          for(let key in state.servers){
-            let item = state.servers[key]
-            if (`ws://${item.wss_url.ip}:${item.wss_url.port}/${self.name}` === wss_url) {
-            //TODO 这里没有vuex显示  
-            item.connect_status = true;
-            }
-          }
+          // console.log(event.target.url);
+          // onopen 能准确访问到外面的tab_name, 利用这个, 将connect_status同步更新
+          // console.log("In onopen, tab_name:", tab_name)
+          state.servers[tab_name].connect_status = true;
+          notify_callback({
+            title: "成功",
+            message: `${tab_name}\n${state.servers[tab_name].wss_url.ip}:${state.servers[tab_name].wss_url.port} 建立连接`,
+            type: "success"
+          });
         };
 
         wss_client.onerror = err => {
           console.log(`vuex ${self.name} websocket error!`);
           console.log(err);
           state.error = err;
+          notify_callback({
+            title: "错误",
+            message: `${tab_name}\n${state.servers[tab_name].wss_url.ip}:${state.servers[tab_name].wss_url.port} 连接错误`,
+            type: "error"
+          })
         };
 
         wss_client.onclose = event => {
           console.log(`vuex ${self.name} websocket closed!`, event);
-          // 根据url key 去 servers 遍历, 更改对应tab的 connect_status
-          let wss_url = event.target.url;
-          for(let key in state.servers){
-            let item = state.servers[key]
-            if (`ws://${item.wss_url.ip}:${item.wss_url.port}/${self.name}` === wss_url) {
-              item.connect_status = false;
-              item.wss_client = null
-            }
-          }
+          // 根据onopen中的修改, 在这里用同样的方法更新connect_status
+          state.servers[tab_name].connect_status = false;
+          state.servers[tab_name].wss_client = null;
+          notify_callback({
+            title: "信息",
+            message: `${tab_name}\n${state.servers[tab_name].wss_url.ip}:${state.servers[tab_name].wss_url.port} 连接关闭`,
+            type: "info"
+          })
         };
 
         wss_client.onmessage = event => {
@@ -81,7 +85,7 @@ const monitor = {
 
     [self.disconnect](state, tab_name) {
       console.log("ccccccclose");
-      state.servers[tab_name].wss_client.close()
+      state.servers[tab_name].wss_client.close();
     },
 
     [self.add_server](state, { key, obj }) {
@@ -115,6 +119,10 @@ const monitor = {
       console.log("vuex update port :", payload);
       let { tab_name, port } = payload;
       state.servers[tab_name].wss_url.port = port;
+    },
+
+    [self.update_tab](state, val) {
+      state.tab += val;
     },
 
     [self.update_dialog_strategy_setting](state, obj) {
