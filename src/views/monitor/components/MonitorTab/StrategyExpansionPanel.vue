@@ -2,26 +2,15 @@
   <v-card>
     <v-card-title primary-title> {{ this.engine_name }}号引擎 </v-card-title>
     <div>
-      <!-- <div class="d-flex"> -->
       <!-- <v-checkbox v-model="disabled" label="Disabled"></v-checkbox> -->
-      <!-- <v-spacer></v-spacer> -->
-      <StrategySelectCard :tab_name="tab_name" />
-      <!-- </div> -->
+      <StrategySelectCard :tab_name="tab_name" :engine_name="engine_name" />
 
       <v-expansion-panels v-model="panel" :disabled="disabled" multiple>
-        <v-expansion-panel>
-          <v-expansion-panel-header>Panel 1</v-expansion-panel-header>
+        <v-expansion-panel v-for="(value, index) in engines[this.engine_name].strategy_arr" :key="index">
+          <v-expansion-panel-header>{{value}}</v-expansion-panel-header>
           <v-expansion-panel-content>
             Some content
-            <StrategyCard />
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-
-        <v-expansion-panel>
-          <v-expansion-panel-header>Panel 2</v-expansion-panel-header>
-          <v-expansion-panel-content>
-            Some content
-            <StrategyCard />
+            <StrategyCard :tab_name="tab_name" :engine_name="engine_name" />
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels>
@@ -31,6 +20,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   components: {
     StrategyCard: () => import("./StrategyExpansionPanel/StrategyCard"),
@@ -41,14 +32,25 @@ export default {
 
   props: {
     engine_name: String,
-    tab_name: String,
+    tab_name: String
   },
 
   data: () => ({
-    panel: [0, 1],
+    panel: [],
     disabled: false,
     readonly: false
   }),
+
+  computed: {
+    ...mapState({
+      engines(state) {
+        // 为了能使用props中的tab_name, 这里一改以往的箭头函数写法
+        // console.log("in engines computed, state.monitor.servers[this.tab_name].engines is")
+        // console.log(state.monitor.servers[this.tab_name].engines)
+        return state.monitor.servers[this.tab_name].engines;
+      }
+    })
+  },
 
   methods: {}
 };

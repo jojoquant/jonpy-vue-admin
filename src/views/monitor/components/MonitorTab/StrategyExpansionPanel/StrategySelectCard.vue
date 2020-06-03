@@ -6,7 +6,7 @@
           v-model="value"
           :items="servers[this.tab_name].strategy_select"
           dense
-          label="可选策略"
+          :label="`${servers[this.tab_name].strategy_select.length}个可选策略`"
           small-chips
           solo
           deletable-chips
@@ -22,15 +22,18 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import vuex_monitor_types from "../../../../../store/modules/monitor_types";
+import { mapState,mapMutations } from "vuex";
+
 
 export default {
   props: {
-    tab_name: String
+    tab_name: String,
+    engine_name:String,
   },
   data() {
     return {
-      value:[]
+      value:[],
     };
   },
 
@@ -40,7 +43,21 @@ export default {
     })
   },
   methods: {
-    add_strategy() {}
+    ...mapMutations(vuex_monitor_types.name, [
+      vuex_monitor_types.add_strategy_to_engine,
+    ]),
+    add_strategy() {
+      // console.log(this.value)
+      // debugger
+      let payload = {
+        strategy: this.value,
+        tab_name: this.tab_name,
+        engine_name: this.engine_name,
+        notify_callback: this.$notify,
+      };
+      this.add_strategy_to_engine(payload)
+      this.value = []
+    }
   }
 };
 </script>

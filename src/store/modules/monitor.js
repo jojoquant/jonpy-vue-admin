@@ -177,7 +177,17 @@ const monitor = {
         message: `删除 ${engine_name}号引擎`,
         type: "success"
       })
-      
+    },
+
+    [self.add_strategy_to_engine](state, payload){
+      let {strategy, tab_name, engine_name, notify_callback} = payload
+      state.servers[tab_name].engines[engine_name].strategy_arr = strategy
+      notify_callback({
+        title: "成功",
+        message: `${engine_name}号引擎 已添加策略`,
+        type: "success"
+      })
+
     },
 
     [self.update_dialog_strategy_setting](state, obj) {

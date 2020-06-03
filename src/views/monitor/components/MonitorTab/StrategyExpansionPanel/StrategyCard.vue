@@ -1,8 +1,8 @@
 <template>
   <v-card>
-      <v-card-title primary-title>
-          StrategyCard
-      </v-card-title>
+    <v-card-title primary-title>
+      StrategyCard
+    </v-card-title>
     <v-row>
       <v-col>
         <StrategyVariablesTable />
@@ -16,6 +16,10 @@
 
 <script>
 export default {
+  props: {
+    engine_name: String,
+    tab_name: String
+  },
   components: {
     StrategyVariablesTable: () =>
       import("./StrategyCard/StrategyVariablesTable"),
