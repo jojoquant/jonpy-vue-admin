@@ -26,7 +26,7 @@
         </v-expansion-panel>
       </v-expansion-panels>
     </div>
-    <FabSpeedDial :tab_name="tab_name" :engine_name="engine_name" :engine_index="engine_index" />
+    <FabSpeedDial :tab_name="tab_name" :engine_name="engine_name" />
   </v-card>
 </template>
 
@@ -42,7 +42,6 @@ export default {
   props: {
     engine_name: String,
     tab_name: String,
-    engine_index: Number
   },
 
   data: () => ({

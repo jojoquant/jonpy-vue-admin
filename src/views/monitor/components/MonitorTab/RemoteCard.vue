@@ -4,7 +4,7 @@
       <v-col cols="7">
         <v-card>
           <v-row>
-            <v-col cols="7">
+            <v-col cols="12" sm="6" md="6">
               <v-text-field
                 v-model="ip"
                 :disabled="monitor.servers[this.tab_name].connect_status"
@@ -15,7 +15,7 @@
               >
               </v-text-field>
             </v-col>
-            <v-col cols="5">
+            <v-col cols="12" sm="6" md="6">
               <v-text-field
                 v-model="port"
                 :disabled="monitor.servers[this.tab_name].connect_status"
@@ -31,20 +31,20 @@
       </v-col>
 
       <v-col cols="5">
-        <v-card>
-          <v-row>
-            <v-col>
-              <v-btn color="success" rounded @click="connect">connect</v-btn>
-            </v-col>
-            <v-col>
-              <v-btn color="error" rounded @click="tab_disconnect"
+        <!-- <v-card> -->
+          <!-- <v-row>
+            <v-col> -->
+              <v-btn color="success" class="ma-2" rounded @click="connect">connect</v-btn>
+            <!-- </v-col>
+            <v-col> -->
+              <v-btn color="error" class="ma-2" rounded @click="tab_disconnect"
                 >disconnect</v-btn
               >
-            </v-col>
-          </v-row>
+            <!-- </v-col>
+          </v-row> -->
 
           <!-- <v-divider class="mx-4" vertical></v-divider> -->
-        </v-card>
+        <!-- </v-card> -->
       </v-col>
     </v-row>
   </v-card>

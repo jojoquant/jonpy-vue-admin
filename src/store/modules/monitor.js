@@ -142,9 +142,15 @@ const monitor = {
     },
 
     [self.add_engine](state, payload){
-      let {tab_name} = payload
+      let {tab_name, notify_callback, thisSet_callback} = payload
       console.log("In vuex add_engine , tab_name:", tab_name)
-      state.servers[tab_name].engines.push({ name: `${state.servers[tab_name].engines.length}`, strategy_arr: [] })
+      let key = Object.keys(state.servers[tab_name].engines).length
+      thisSet_callback(state.servers[tab_name].engines, key, {strategy_arr: [] })
+      notify_callback({
+        title: "成功",
+        message: `添加 ${key}号引擎`,
+        type: "success"
+      })
     },
 
     [self.edit_engine](state, payload){
@@ -154,9 +160,9 @@ const monitor = {
     },
 
     [self.remove_engine](state, payload){
-      console.log("In vuex remove_engine , tab_name, engine_index:", tab_name, engine_index)
-      let {tab_name, engine_index, notify_callback} = payload
-      if(state.servers[tab_name].engines.length===1){
+      console.log("In vuex remove_engine , tab_name, engine_index:", tab_name, engine_name)
+      let {tab_name, engine_name, notify_callback,thisDelete_callback} = payload
+      if(Object.keys(state.servers[tab_name].engines).length===1){
         notify_callback({
           title: "失败",
           message: `引擎数目最少为 1`,
@@ -164,13 +170,14 @@ const monitor = {
         })
         return
       }
-      let engine_name = state.servers[tab_name].engines[engine_index].name
-      state.servers[tab_name].engines.splice(engine_index, 1)
+      // delete state.servers[tab_name].engines[engine_name]
+      thisDelete_callback(state.servers[tab_name].engines, engine_name)
       notify_callback({
         title: "成功",
         message: `删除 ${engine_name}号引擎`,
         type: "success"
       })
+      
     },
 
     [self.update_dialog_strategy_setting](state, obj) {

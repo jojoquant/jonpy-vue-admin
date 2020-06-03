@@ -36,7 +36,6 @@ export default {
   props: {
     engine_name: String,
     tab_name: String,
-    engine_index: Number
   },
   data: () => ({
     direction: "left",
@@ -57,8 +56,14 @@ export default {
       vuex_monitor_types.remove_engine
     ]),
     addEngine() {
+      // v-for 对于 object 的deep watch监听, 无法用直接赋值的方式触发
+      // 需要用this.$set(obj, key/newKey, newValue) 触发watch 
+      // 所以把 全局$set函数 作为 回调函数 传进 vuex mutation 中
+      // v-for 数组 没有这个问题
       let payload = {
         tab_name: this.tab_name,
+        notify_callback: this.$notify,
+        thisSet_callback: this.$set
       };
       this.add_engine(payload);
     },
@@ -73,8 +78,9 @@ export default {
     removeEngine() {
       let payload = {
         tab_name: this.tab_name,
-        engine_index: this.engine_index,
-        notify_callback: this.$notify
+        engine_name: this.engine_name,
+        notify_callback: this.$notify,
+        thisDelete_callback: this.$delete
       };
       this.remove_engine(payload);
     }
