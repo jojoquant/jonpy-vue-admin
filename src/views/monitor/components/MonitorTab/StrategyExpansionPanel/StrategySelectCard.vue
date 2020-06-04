@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card flat>
     <v-row align-item-center>
       <v-col cols="12">
         <v-select
@@ -10,30 +10,63 @@
           small-chips
           solo
           deletable-chips
+          hide-details
           multiple
           outlined
         ></v-select>
-        <v-btn color="success" @click="add_strategy">添加策略</v-btn>
-        <v-spacer></v-spacer>
-        <v-btn color="success" @click="add_strategy">启动策略</v-btn>
       </v-col>
+      <v-col cols="6">
+        <v-select
+          v-model="value"
+          :items="servers[this.tab_name].strategy_select"
+          dense
+          :label="
+            `${servers[this.tab_name].strategy_select.length}个可选交易所`
+          "
+          small-chips
+          solo
+          deletable-chips
+          hide-details
+          multiple
+          outlined
+        ></v-select>
+      </v-col>
+      <v-col cols="6">
+        <v-select
+          v-model="value"
+          :items="servers[this.tab_name].strategy_select"
+          dense
+          :label="`${servers[this.tab_name].strategy_select.length}个可选合约`"
+          small-chips
+          solo
+          deletable-chips
+          hide-details
+          multiple
+          outlined
+        ></v-select>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-btn color="blue" class="mx-6" @click="add_strategy">添加所选策略</v-btn>
+      <v-btn color="amber darken-4" class="mx-6" @click="add_strategy">初始化策略</v-btn>
+      <v-btn color="success" class="mx-6" @click="add_strategy">启动全部策略</v-btn>
+      <v-btn color="error" class="mx-6" @click="add_strategy">停止全部策略</v-btn>
     </v-row>
   </v-card>
 </template>
 
 <script>
 import vuex_monitor_types from "../../../../../store/modules/monitor_types";
-import { mapState,mapMutations } from "vuex";
-
+import { mapState, mapMutations } from "vuex";
 
 export default {
   props: {
     tab_name: String,
-    engine_name:String,
+    engine_name: String
   },
   data() {
     return {
-      value:[],
+      value: []
     };
   },
 
@@ -44,7 +77,7 @@ export default {
   },
   methods: {
     ...mapMutations(vuex_monitor_types.name, [
-      vuex_monitor_types.add_strategy_to_engine,
+      vuex_monitor_types.add_strategy_to_engine
     ]),
     add_strategy() {
       // console.log(this.value)
@@ -53,10 +86,10 @@ export default {
         strategy: this.value,
         tab_name: this.tab_name,
         engine_name: this.engine_name,
-        notify_callback: this.$notify,
+        notify_callback: this.$notify
       };
-      this.add_strategy_to_engine(payload)
-      this.value = []
+      this.add_strategy_to_engine(payload);
+      this.value = [];
     }
   }
 };

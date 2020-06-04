@@ -4,7 +4,7 @@
     <div>
       <!-- <v-checkbox v-model="disabled" label="Disabled"></v-checkbox> -->
       <StrategySelectCard :tab_name="tab_name" :engine_name="engine_name" />
-
+      <br>
       <v-expansion-panels v-model="panel" :disabled="disabled" multiple>
         <v-expansion-panel v-for="(value, index) in engines[this.engine_name].strategy_arr" :key="index">
           <v-expansion-panel-header>{{value}}</v-expansion-panel-header>
