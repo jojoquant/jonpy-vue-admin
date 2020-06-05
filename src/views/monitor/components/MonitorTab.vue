@@ -1,13 +1,10 @@
 <template>
   <v-container fluid>
     <v-row>
-      <v-col>
+      <v-col cols="12" sm="12" md="6">
         <RemoteCard :tab_name="tab_name" />
       </v-col>
-    </v-row>
-
-    <v-row>
-      <v-col cols="6" v-for="(item, key) in engines" :key="key">
+      <v-col cols="12" sm="12" md="6" v-for="(item, key) in engines" :key="key">
         <StrategyExpansionPanel :engine_name="key" :tab_name="tab_name" />
       </v-col>
     </v-row>

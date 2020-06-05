@@ -2,7 +2,7 @@
   <v-card flat>
     <v-row align-item-center>
       <v-col cols="12">
-        <v-select
+        <v-select 
           v-model="value"
           :items="servers[this.tab_name].strategy_select"
           dense
@@ -45,12 +45,20 @@
           outlined
         ></v-select>
       </v-col>
-    </v-row>
-    <v-row>
-      <v-btn color="blue" class="mx-6" @click="add_strategy">添加所选策略</v-btn>
-      <v-btn color="amber darken-4" class="mx-6" @click="add_strategy">初始化策略</v-btn>
-      <v-btn color="success" class="mx-6" @click="add_strategy">启动全部策略</v-btn>
-      <v-btn color="error" class="mx-6" @click="add_strategy">停止全部策略</v-btn>
+      <v-col>
+          <v-btn color="blue" class="ma-2" @click="add_strategy"
+        >添加所选策略</v-btn
+      >
+      <v-btn color="amber darken-4" class="ma-2" @click="add_strategy"
+        >初始化策略</v-btn
+      >
+      <v-btn color="success" class="ma-2" @click="add_strategy"
+        >启动全部策略</v-btn
+      >
+      <v-btn color="error" class="ma-2" @click="add_strategy"
+        >停止全部策略</v-btn
+      >
+      </v-col>
     </v-row>
   </v-card>
 </template>

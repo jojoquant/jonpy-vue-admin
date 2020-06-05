@@ -86,8 +86,9 @@ const monitor = {
       }
     },
 
-    [self.send](state, msg) {
-      state.wss_client.send(msg);
+    [self.send](state, payload) {
+      let {tab_name, msg} = payload
+      state.servers[tab_name].wss_client.send(msg);
     },
 
     [self.set_error](state, error) {
@@ -203,8 +204,8 @@ const monitor = {
       commit(self.__init__, payload);
     },
 
-    async send({ commit }, msg) {
-      commit(self.send, msg);
+    async send({ commit }, payload) {
+      commit(self.send, payload);
     },
 
     async disconnect({ commit }, tab_name) {
