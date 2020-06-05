@@ -112,12 +112,25 @@
         >
         </v-text-field>
       </v-col>
-      <v-col cols="6" offset-md="6" sm="3">
-        <v-btn color="success" class="ma-2" rounded @click="connect">connect</v-btn>
+      <v-col cols="6" offset-md="3" sm="3">
+        <v-btn color="success" class="ma-2" rounded @click="connect"
+          >建立前后端连接</v-btn
+        >
         <!-- <v-btn color="success" @click="start_test">start_test</v-btn> -->
       </v-col>
       <v-col cols="6" md="3">
-        <v-btn color="error" class="ma-2" rounded @click="tab_disconnect">disconnect</v-btn>
+        <v-btn color="error" class="ma-2" rounded @click="tab_disconnect"
+          >断开前后端连接</v-btn
+        >
+      </v-col>
+      <v-col cols="6" md="3">
+        <v-btn
+          color="orange darken-4"
+          class="ma-2"
+          rounded
+          @click="connect_gateway"
+          >连接交易所接口</v-btn
+        >
       </v-col>
     </v-row>
   </v-card>
@@ -228,6 +241,22 @@ export default {
       // 注意不要和vuex中的disconnect重名, 否则会形成递归
       console.log("Disconnect websocket:", this.ip, this.port);
       this.disconnect(this.tab_name);
+    },
+    connect_gateway() {
+      let gateway_payload = {
+        tab_name: this.tab_name,
+        msg: JSON.stringify({
+          gateway_connect: {
+            account: this.account,
+            password: this.password,
+            broker_id: this.broker_id,
+            author_code: this.author_code,
+            td_address: this.server_info[this.ctp_selected].td_address,
+            md_address: this.server_info[this.ctp_selected].md_address
+          }
+        })
+      };
+      this.send(gateway_payload);
     },
     start_test() {
       let payload = {
