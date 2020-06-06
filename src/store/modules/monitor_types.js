@@ -7,6 +7,7 @@ const default_server = {
   },
   wss_client: null,
   strategy_select: [],
+  exchange_contract_obj: {},
   engines: { "0": { strategy_arr: [] } }
 };
 
@@ -28,6 +29,6 @@ export default {
   add_engine: "add_engine",
   edit_engine: "edit_engine",
   remove_engine: "remove_engine",
-  add_strategy_to_engine:"add_strategy_to_engine",
+  add_strategy_to_engine: "add_strategy_to_engine",
   changeExchanges: "changeExchanges"
 };

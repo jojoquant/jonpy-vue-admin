@@ -75,7 +75,28 @@
         >
         </v-text-field>
       </v-col>
-      <v-col cols="12" sm="6" md="6">
+      <v-col cols="12" sm="4" md="4">
+        <v-text-field
+          v-model="appid"
+          :rules="[rules.required]"
+          label="产品名称appid"
+          counter
+          dense
+          outlined
+        >
+        </v-text-field>
+      </v-col>
+      <v-col cols="12" sm="2" md="2">
+        <v-text-field
+          v-model="product_info"
+          label="产品信息"
+          counter
+          dense
+          outlined
+        >
+        </v-text-field>
+      </v-col>
+      <v-col cols="12" sm="4" md="4">
         <v-select
           :items="Object.keys(server_info)"
           v-model="ctp_selected"
@@ -85,7 +106,7 @@
           label="CTP 测试环境"
         ></v-select>
       </v-col>
-      <v-col cols="12" sm="6" md="6">
+      <v-col cols="12" sm="4" md="4">
         <v-text-field
           v-model="server_info[ctp_selected].td_address"
           :rules="[rules.required]"
@@ -98,7 +119,7 @@
         >
         </v-text-field>
       </v-col>
-      <v-col cols="12" sm="6" md="6">
+      <v-col cols="12" sm="4" md="4">
         <v-text-field
           v-model="server_info[ctp_selected].md_address"
           :rules="[rules.required]"
@@ -107,7 +128,6 @@
           counter
           dense
           outlined
-          hide-details
           @click:append="show1 = !show1"
         >
         </v-text-field>
@@ -116,7 +136,6 @@
         <v-btn color="success" class="ma-2" rounded @click="connect"
           >建立前后端连接</v-btn
         >
-        <!-- <v-btn color="success" @click="start_test">start_test</v-btn> -->
       </v-col>
       <v-col cols="6" md="3">
         <v-btn color="error" class="ma-2" rounded @click="tab_disconnect"
@@ -153,6 +172,8 @@ export default {
       broker_id_hint: "经纪商代码长度4位数字",
       author_code: "0000000000000000",
       author_code_hint: "授权编码为16个0",
+      appid: "simnow_client_test",
+      product_info: "",
       ctp_selected: "simnow1",
       server_info: {
         simnow1: {
@@ -252,18 +273,13 @@ export default {
             broker_id: this.broker_id,
             author_code: this.author_code,
             td_address: this.server_info[this.ctp_selected].td_address,
-            md_address: this.server_info[this.ctp_selected].md_address
+            md_address: this.server_info[this.ctp_selected].md_address,
+            appid: this.appid,
+            product_info: this.product_info
           }
         })
       };
       this.send(gateway_payload);
-    },
-    start_test() {
-      let payload = {
-        tab_name: this.tab_name,
-        msg: JSON.stringify({ start: " " })
-      };
-      this.send(payload);
     }
   }
 };

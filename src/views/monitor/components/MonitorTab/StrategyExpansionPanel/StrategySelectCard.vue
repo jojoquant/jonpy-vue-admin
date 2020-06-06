@@ -2,7 +2,7 @@
   <v-card flat>
     <v-row align-item-center>
       <v-col cols="12">
-        <v-select 
+        <v-select
           v-model="value"
           :items="servers[this.tab_name].strategy_select"
           dense
@@ -17,47 +17,43 @@
       </v-col>
       <v-col cols="6">
         <v-select
-          v-model="value"
-          :items="servers[this.tab_name].strategy_select"
+          v-model="exchange"
+          :items="Object.keys(servers[this.tab_name].exchange_contract_obj)"
           dense
           :label="
-            `${servers[this.tab_name].strategy_select.length}个可选交易所`
+            `${
+              Object.keys(servers[this.tab_name].exchange_contract_obj).length
+            }个可选交易所`
           "
-          small-chips
           solo
-          deletable-chips
           hide-details
-          multiple
           outlined
         ></v-select>
       </v-col>
       <v-col cols="6">
         <v-select
-          v-model="value"
-          :items="servers[this.tab_name].strategy_select"
+          v-model="contract_select"
+          :items="contracts"
           dense
-          :label="`${servers[this.tab_name].strategy_select.length}个可选合约`"
-          small-chips
+          :label="`${contracts.length}个可选合约`"
           solo
-          deletable-chips
           hide-details
-          multiple
           outlined
         ></v-select>
       </v-col>
       <v-col>
-          <v-btn color="blue" class="ma-2" @click="add_strategy"
-        >添加所选策略</v-btn
-      >
-      <v-btn color="amber darken-4" class="ma-2" @click="add_strategy"
-        >初始化策略</v-btn
-      >
-      <v-btn color="success" class="ma-2" @click="add_strategy"
-        >启动全部策略</v-btn
-      >
-      <v-btn color="error" class="ma-2" @click="add_strategy"
-        >停止全部策略</v-btn
-      >
+        <v-btn color="blue" class="ma-2" @click="add_strategy"
+          >添加所选策略</v-btn
+        >
+        <v-btn color="amber darken-4" class="ma-2" @click="add_strategy"
+          >初始化策略</v-btn
+        >
+        <v-btn color="success" class="ma-2" @click="add_strategy"
+          >启动全部策略</v-btn
+        >
+        <v-btn color="error" class="ma-2" @click="add_strategy"
+          >停止全部策略</v-btn
+        >
       </v-col>
     </v-row>
   </v-card>
@@ -74,13 +70,26 @@ export default {
   },
   data() {
     return {
-      value: []
+      value: [],
+      exchange: "",
+      contract_select:""
     };
   },
 
   computed: {
     ...mapState({
-      servers: state => state.monitor.servers
+      servers: state => state.monitor.servers,
+      contracts(state) {
+        if (this.exchange) {
+          return state.monitor.servers[this.tab_name].exchange_contract_obj[
+            this.exchange
+          ].map(item => {
+            return `${item.symbol}_${item.name}`;
+          });
+        } else {
+          return [];
+        }
+      }
     })
   },
   methods: {
