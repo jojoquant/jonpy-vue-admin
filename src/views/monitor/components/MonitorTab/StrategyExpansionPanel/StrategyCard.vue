@@ -5,10 +5,14 @@
     </v-card-title>
     <v-row>
       <v-col>
-        <StrategyVariablesTable />
+        <StrategyVariablesTable
+          :strategy_variables="strategy_variables"
+        />
       </v-col>
       <v-col>
-        <StrategyParametersTable />
+        <StrategyParametersTable
+          :strategy_parameters="strategy_parameters"
+        />
       </v-col>
     </v-row>
   </v-card>
@@ -18,7 +22,9 @@
 export default {
   props: {
     engine_name: String,
-    tab_name: String
+    tab_name: String,
+    strategy_variables: Array,
+    strategy_parameters: Array
   },
   components: {
     StrategyVariablesTable: () =>

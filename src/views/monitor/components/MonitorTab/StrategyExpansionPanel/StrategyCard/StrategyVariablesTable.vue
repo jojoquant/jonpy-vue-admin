@@ -1,7 +1,7 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="desserts"
+    :items="strategy_variables"
     item-key="name"
     class="elevation-1"
     dense
@@ -60,6 +60,9 @@
 
 <script>
 export default {
+  props: {
+    strategy_variables: Array
+  },
   data: () => ({
     dialog: false,
     expanded: [],
@@ -75,7 +78,6 @@ export default {
       { text: "Value", value: "value" },
       { text: "Actions", value: "actions", sortable: false }
     ],
-    desserts: [],
     editedIndex: -1,
     editedItem: {
       name: "",
@@ -106,62 +108,12 @@ export default {
     }
   },
 
-  created() {
-    this.initialize();
-  },
-
   methods: {
-    initialize() {
-      this.desserts = [
-        {
-          name: "Frozen Yogurt",
-          value: 159
-        },
-        {
-          name: "Ice cream sandwich",
-          value: 237
-        },
-        {
-          name: "Eclair",
-          value: 262
-        },
-        {
-          name: "Cupcake",
-          value: 305
-        },
-        {
-          name: "Gingerbread",
-          value: 356
-        },
-        {
-          name: "Jelly bean",
-          value: 375
-        },
-        {
-          name: "Lollipop",
-          value: 392
-        },
-        {
-          name: "Honeycomb",
-          value: 408
-        },
-        {
-          name: "Donut",
-          value: 452
-        },
-        {
-          name: "KitKat",
-          value: 518
-        }
-      ];
-    },
-
     editItem(item) {
       this.editedIndex = this.desserts.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
-
 
     close() {
       this.dialog = false;

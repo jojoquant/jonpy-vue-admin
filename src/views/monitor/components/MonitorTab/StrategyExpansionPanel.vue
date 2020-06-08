@@ -1,16 +1,28 @@
 <template>
   <v-card>
-    <v-card-title primary-title> {{ this.engine_name }}号引擎 </v-card-title>
+    <v-card-title primary-title>
+      ({{ this.engine_name }})_合约策略组
+    </v-card-title>
     <div>
       <!-- <v-checkbox v-model="disabled" label="Disabled"></v-checkbox> -->
       <StrategySelectCard :tab_name="tab_name" :engine_name="engine_name" />
-      <br>
+      <br />
       <v-expansion-panels v-model="panel" :disabled="disabled" multiple>
-        <v-expansion-panel v-for="(value, index) in engines[this.engine_name].strategy_arr" :key="index">
-          <v-expansion-panel-header>{{value}}</v-expansion-panel-header>
+        <v-expansion-panel
+          v-for="(value, index) in engines[this.engine_name].strategy_arr"
+          :key="index"
+        >
+          <v-expansion-panel-header>{{
+            value.expension_name
+          }}</v-expansion-panel-header>
           <v-expansion-panel-content>
             Some content
-            <StrategyCard :tab_name="tab_name" :engine_name="engine_name" />
+            <StrategyCard
+              :tab_name="tab_name"
+              :engine_name="engine_name"
+              :strategy_variables="value.strategy_variables"
+              :strategy_parameters="value.strategy_parameters"
+            />
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels>
