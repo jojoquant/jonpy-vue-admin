@@ -84,7 +84,7 @@ export default {
           return state.monitor.servers[this.tab_name].exchange_contract_obj[
             this.exchange
           ].map(item => {
-            return `${item.symbol}_${item.name}`;
+            return item;
           });
         } else {
           return [];
