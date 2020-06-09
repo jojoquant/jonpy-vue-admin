@@ -1,10 +1,9 @@
 <template>
   <v-card>
     <v-card-title primary-title>
-      ({{ this.engine_name }})_合约策略组
+      [ {{ this.engine_name }} ] 合约策略组
     </v-card-title>
     <div>
-      <!-- <v-checkbox v-model="disabled" label="Disabled"></v-checkbox> -->
       <StrategySelectCard :tab_name="tab_name" :engine_name="engine_name" />
       <br />
       <v-expansion-panels v-model="panel" :disabled="disabled" multiple>
@@ -12,17 +11,36 @@
           v-for="(value, index) in engines[this.engine_name].strategy_arr"
           :key="index"
         >
-          <v-expansion-panel-header>{{
-            value.expension_name
-          }}</v-expansion-panel-header>
+          <v-expansion-panel-header>
+            {{ value.expension_name }}
+          </v-expansion-panel-header>
           <v-expansion-panel-content>
-            Some content
-            <StrategyCard
-              :tab_name="tab_name"
-              :engine_name="engine_name"
-              :strategy_variables="value.strategy_variables"
-              :strategy_parameters="value.strategy_parameters"
-            />
+            <v-row>
+              <v-btn small rounded class="mx-4" color="amber darken-4" @click="init_strategy">
+                <v-icon left>mdi-reload</v-icon>
+                初始化策略
+              </v-btn>
+              <v-btn small rounded class="mx-4" color="success">
+                <v-icon left>mdi-play</v-icon>
+                同步并启动策略
+              </v-btn>
+              <v-btn small rounded class="mx-4" color="deep-purple darken-2">
+                <v-icon left>mdi-stop</v-icon>
+                停止策略
+              </v-btn>
+              <v-btn small rounded class="mx-4" color="error">
+                <v-icon left>mdi-trash-can</v-icon>
+                删除策略
+              </v-btn>
+            </v-row>
+            <v-row>
+              <StrategyCard
+                :tab_name="tab_name"
+                :engine_name="engine_name"
+                :strategy_variables="value.strategy_variables"
+                :strategy_parameters="value.strategy_parameters"
+              />
+            </v-row>
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels>
@@ -64,6 +82,10 @@ export default {
     })
   },
 
-  methods: {}
+  methods: {
+    init_strategy(){
+      
+    }
+  }
 };
 </script>

@@ -8,6 +8,7 @@ const default_server = {
   wss_client: null,
   strategy_select: [],
   exchange_contract_obj: {},
+  notify_callback: function(){},
   engines: { "0": { strategy_arr: [] } }
 };
 

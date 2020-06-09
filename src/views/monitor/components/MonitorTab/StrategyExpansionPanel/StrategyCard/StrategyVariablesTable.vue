@@ -110,7 +110,7 @@ export default {
 
   methods: {
     editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
+      this.editedIndex = this.strategy_variables.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
@@ -125,17 +125,14 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem);
+        Object.assign(this.strategy_variables[this.editedIndex], this.editedItem);
       } else {
         this.desserts.push(this.editedItem);
       }
       this.close();
     },
 
-    run_stop(item) {
-      console.log(item);
-      console.log(this.desserts.indexOf(item));
-
+    run_stop() {
       this.strategy_run = !this.strategy_run;
     }
   }

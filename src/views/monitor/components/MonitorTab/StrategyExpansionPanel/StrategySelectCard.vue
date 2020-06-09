@@ -42,18 +42,22 @@
         ></v-select>
       </v-col>
       <v-col>
-        <v-btn color="blue" class="ma-2" @click="add_strategy"
-          >添加所选策略</v-btn
-        >
-        <v-btn color="amber darken-4" class="ma-2" @click="add_strategy"
-          >初始化策略</v-btn
-        >
-        <v-btn color="success" class="ma-2" @click="add_strategy"
-          >启动全部策略</v-btn
-        >
-        <v-btn color="error" class="ma-2" @click="add_strategy"
-          >停止全部策略</v-btn
-        >
+        <v-btn color="blue" class="ma-2" @click="add_strategy">
+          <v-icon left>mdi-plus</v-icon>
+          添加所选策略
+        </v-btn>
+        <v-btn color="amber darken-4" class="ma-2" @click="add_strategy">
+          <v-icon left>mdi-reload</v-icon>
+          初始化全策略
+        </v-btn>
+        <v-btn color="success" class="ma-2" @click="add_strategy">
+          <v-icon left>mdi-play</v-icon>
+          启动全部策略
+        </v-btn>
+        <v-btn color="deep-purple darken-2" class="ma-2" @click="add_strategy">
+          <v-icon left>mdi-stop</v-icon>
+          停止全部策略
+        </v-btn>
       </v-col>
     </v-row>
   </v-card>
@@ -72,7 +76,7 @@ export default {
     return {
       value: [],
       exchange: "",
-      contract_select:""
+      contract_select: ""
     };
   },
 
@@ -97,8 +101,6 @@ export default {
       vuex_monitor_types.add_strategy_to_engine
     ]),
     add_strategy() {
-      // console.log(this.value)
-      // debugger
       let payload = {
         strategy: this.value,
         tab_name: this.tab_name,

@@ -1,8 +1,5 @@
 <template>
   <v-card>
-    <v-card-title primary-title>
-      StrategyCard
-    </v-card-title>
     <v-row>
       <v-col>
         <StrategyVariablesTable

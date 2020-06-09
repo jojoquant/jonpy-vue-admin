@@ -29,6 +29,7 @@ const monitor = {
         let wss_url = `ws://${state.servers[tab_name].wss_url.ip}:${state.servers[tab_name].wss_url.port}/monitor`;
         let wss_client = new WebSocket(wss_url);
         state.servers[tab_name].wss_client = wss_client;
+        state.servers[tab_name].notify_callback = notify_callback;
 
         wss_client.onopen = () => {
           console.log(`vuex ${self.name} websocket connect successful!`);
@@ -71,23 +72,21 @@ const monitor = {
           console.log("recv data");
           console.log(re_obj_data);
 
-          Object.assign(state.servers[tab_name], re_obj_data)
-          // if ("strategy_arr" in re_obj_data) {
-          //   state.servers[tab_name].engines.map((_, index) => {
-          //     // debugger
-          //     // Object.assign(item, re_obj_data);
-          //     // state.servers[tab_name].engines[index].strategy_arr = re_obj_data.strategy_arr
-          //     let payload = { tab_name, index, strategy_arr:re_obj_data.strategy_arr };
-          //     this.commit(`${self.name}/${self.update_strategy}`, payload);
-          //   });
-          // }
-
+          if ("dialog_msg" in re_obj_data) {
+            notify_callback({
+              title: "后端log信息",
+              message: re_obj_data.dialog_msg,
+              type: "info"
+            });
+            delete re_obj_data.dialog_msg;
+          }
+          Object.assign(state.servers[tab_name], re_obj_data);
         };
       }
     },
 
     [self.send](state, payload) {
-      let {tab_name, msg} = payload
+      let { tab_name, msg } = payload;
       state.servers[tab_name].wss_client.send(msg);
     },
 
@@ -142,53 +141,63 @@ const monitor = {
       state.servers[tab_name].engines[index].strategy_arr = strategy_arr;
     },
 
-    [self.add_engine](state, payload){
-      let {tab_name, notify_callback, thisSet_callback} = payload
-      console.log("In vuex add_engine , tab_name:", tab_name)
-      let key = Object.keys(state.servers[tab_name].engines).length
-      thisSet_callback(state.servers[tab_name].engines, key, {strategy_arr: [] })
+    [self.add_engine](state, payload) {
+      let { tab_name, notify_callback, thisSet_callback } = payload;
+      console.log("In vuex add_engine , tab_name:", tab_name);
+      let key = Object.keys(state.servers[tab_name].engines).length;
+      thisSet_callback(state.servers[tab_name].engines, key, {
+        strategy_arr: []
+      });
       notify_callback({
         title: "成功",
         message: `添加 ${key}号引擎`,
         type: "success"
-      })
+      });
     },
 
-    [self.edit_engine](state, payload){
-      let {tab_name} = payload
-      console.log("In vuex edit_engine , tab_name:", tab_name)
+    [self.edit_engine](state, payload) {
+      let { tab_name } = payload;
+      console.log("In vuex edit_engine , tab_name:", tab_name);
       // state.servers[tab_name].engines.push({ name: `${engine_index}`, strategy_arr: [] })
     },
 
-    [self.remove_engine](state, payload){
-      console.log("In vuex remove_engine , tab_name, engine_index:", tab_name, engine_name)
-      let {tab_name, engine_name, notify_callback,thisDelete_callback} = payload
-      if(Object.keys(state.servers[tab_name].engines).length===1){
+    [self.remove_engine](state, payload) {
+      console.log(
+        "In vuex remove_engine , tab_name, engine_index:",
+        tab_name,
+        engine_name
+      );
+      let {
+        tab_name,
+        engine_name,
+        notify_callback,
+        thisDelete_callback
+      } = payload;
+      if (Object.keys(state.servers[tab_name].engines).length === 1) {
         notify_callback({
           title: "失败",
           message: `引擎数目最少为 1`,
           type: "error"
-        })
-        return
+        });
+        return;
       }
       // delete state.servers[tab_name].engines[engine_name]
-      thisDelete_callback(state.servers[tab_name].engines, engine_name)
+      thisDelete_callback(state.servers[tab_name].engines, engine_name);
       notify_callback({
         title: "成功",
         message: `删除 ${engine_name}号引擎`,
         type: "success"
-      })
+      });
     },
 
-    [self.add_strategy_to_engine](state, payload){
-      let {strategy, tab_name, engine_name, notify_callback} = payload
-      state.servers[tab_name].engines[engine_name].strategy_arr = strategy
+    [self.add_strategy_to_engine](state, payload) {
+      let { strategy, tab_name, engine_name, notify_callback } = payload;
+      state.servers[tab_name].engines[engine_name].strategy_arr = strategy;
       notify_callback({
         title: "成功",
         message: `${engine_name}号引擎 已添加策略`,
         type: "success"
-      })
-
+      });
     },
 
     [self.update_dialog_strategy_setting](state, obj) {
