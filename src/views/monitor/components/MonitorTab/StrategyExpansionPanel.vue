@@ -12,23 +12,47 @@
           :key="index"
         >
           <v-expansion-panel-header>
-            {{ value.expension_name }}
+            [{{ value.strategy_name }}] ({{value.strategy_class}})
           </v-expansion-panel-header>
           <v-expansion-panel-content>
             <v-row>
-              <v-btn small rounded class="mx-4" color="amber darken-4" @click="init_strategy">
+              <v-btn
+                small
+                rounded
+                class="mx-4"
+                color="amber darken-4"
+                @click="init_strategy(engine_name, index)"
+              >
                 <v-icon left>mdi-reload</v-icon>
                 初始化策略
               </v-btn>
-              <v-btn small rounded class="mx-4" color="success">
+              <v-btn
+                small
+                rounded
+                class="mx-4"
+                color="success"
+                @click="start_strategy(engine_name, index)"
+              >
                 <v-icon left>mdi-play</v-icon>
-                同步并启动策略
+                启动策略
               </v-btn>
-              <v-btn small rounded class="mx-4" color="deep-purple darken-2">
+              <v-btn
+                small
+                rounded
+                class="mx-4"
+                color="deep-purple darken-2"
+                @click="stop_strategy(engine_name, index)"
+              >
                 <v-icon left>mdi-stop</v-icon>
                 停止策略
               </v-btn>
-              <v-btn small rounded class="mx-4" color="error">
+              <v-btn
+                small
+                rounded
+                class="mx-4"
+                color="error"
+                @click="remove_strategy(engine_name, index)"
+              >
                 <v-icon left>mdi-trash-can</v-icon>
                 删除策略
               </v-btn>
@@ -37,8 +61,11 @@
               <StrategyCard
                 :tab_name="tab_name"
                 :engine_name="engine_name"
+                :strategy_name="value.strategy_name"
+                :strategy_class="value.strategy_class"
                 :strategy_variables="value.strategy_variables"
                 :strategy_parameters="value.strategy_parameters"
+                :strategy_arr_index="index"
               />
             </v-row>
           </v-expansion-panel-content>
@@ -83,8 +110,17 @@ export default {
   },
 
   methods: {
-    init_strategy(){
-      
+    init_strategy(engine_name, index) {
+      console.log("init_strategy, index: ", engine_name, index);
+    },
+    start_strategy(engine_name, index) {
+      console.log("start_strategy, index: ", engine_name, index);
+    },
+    stop_strategy(engine_name, index) {
+      console.log("stop_strategy, index: ", engine_name, index);
+    },
+    remove_strategy(engine_name, index) {
+      console.log("remove_strategy, index: ", engine_name, index);
     }
   }
 };

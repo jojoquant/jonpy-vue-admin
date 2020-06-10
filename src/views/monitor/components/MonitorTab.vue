@@ -48,7 +48,7 @@ export default {
   watch: {
     engines: {
       handler(newValue, oldValue) {
-        console.log("watch engines:", newValue, oldValue);
+        console.log("MonitorTab.vue watch engines:", newValue, oldValue);
       },
       deep: true
     }

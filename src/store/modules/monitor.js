@@ -72,11 +72,11 @@ const monitor = {
           console.log("recv data");
           console.log(re_obj_data);
 
-          if ("dialog_msg" in re_obj_data) {
+          if ("dialog" in re_obj_data) {
             notify_callback({
               title: "后端log信息",
-              message: re_obj_data.dialog_msg,
-              type: "info"
+              message: re_obj_data.dialog.msg,
+              type: re_obj_data.dialog.type
             });
             delete re_obj_data.dialog_msg;
           }
@@ -200,8 +200,21 @@ const monitor = {
       });
     },
 
-    [self.update_dialog_strategy_setting](state, obj) {
-      Object.assign(state.strategy_setting, obj);
+    [self.update_engines_strategy_variables](state, payload) {
+      let {
+        engine_name,
+        tab_name,
+        strategyArrIndex,
+        editedIndex,
+        editedItem
+      } = payload;
+
+      Object.assign(
+        state.servers[tab_name].engines[engine_name].strategy_arr[
+          strategyArrIndex
+        ].strategy_variables[editedIndex],
+        editedItem
+      );
     }
   },
 
@@ -214,6 +227,7 @@ const monitor = {
     },
 
     async send({ commit }, payload) {
+      //注意payload格式 let { tab_name, msg } = payload;
       commit(self.send, payload);
     },
 

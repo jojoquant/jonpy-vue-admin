@@ -25,7 +25,8 @@
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
                   <v-text-field
-                    v-model="editedItem.value"
+                    v-model.number="editedItem.value"
+                    :type="valueType(editedItem.value)"
                     label="Value"
                   ></v-text-field>
                 </v-col>
@@ -59,9 +60,17 @@
 </template>
 
 <script>
+import vuex_monitor_types from "../../../../../../store/modules/monitor_types";
+import { mapMutations, mapActions } from "vuex";
+
 export default {
   props: {
-    strategy_variables: Array
+    engine_name: String,
+    tab_name: String,
+    strategy_name: String,
+    strategy_class: String,
+    strategy_variables: Array,
+    strategy_arr_index: Number
   },
   data: () => ({
     dialog: false,
@@ -92,13 +101,6 @@ export default {
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "New Item" : "Edit Item";
-    },
-    strategy_status_icon() {
-      if (this.strategy_run) {
-        return "mdi-play";
-      } else {
-        return "mdi-stop";
-      }
     }
   },
 
@@ -109,6 +111,10 @@ export default {
   },
 
   methods: {
+    ...mapMutations(vuex_monitor_types.name, [
+      vuex_monitor_types.update_engines_strategy_variables
+    ]),
+    ...mapActions(vuex_monitor_types.name, [vuex_monitor_types.send]),
     editItem(item) {
       this.editedIndex = this.strategy_variables.indexOf(item);
       this.editedItem = Object.assign({}, item);
@@ -125,11 +131,36 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.strategy_variables[this.editedIndex], this.editedItem);
+        let payload = {
+          engine_name: this.engine_name,
+          tab_name: this.tab_name,
+          strategyArrIndex: this.strategy_arr_index,
+          editedIndex: this.editedIndex,
+          editedItem: this.editedItem
+        };
+        // 更新vuex中数据
+        this.update_engines_strategy_variables(payload);
+        // 同步更新后端
+        // console.log("check strategy_variables", this.strategy_variables);
+        let msg = JSON.stringify({
+          edit_strategy: {
+            strategy_name: this.strategy_name,
+            strategy_variables: this.strategy_variables
+          }
+        });
+        this.send({ tab_name: this.tab_name, msg });
       } else {
-        this.desserts.push(this.editedItem);
+        this.strategy_variables.push(this.editedItem);
       }
       this.close();
+    },
+
+    valueType(val) {
+      // 这里为了说明 input 类型, 特意单独独立出函数调用
+      // vuetify type set 为 "number" 并不生效, 
+      // 需要用 vuejs 的 v-model.number 强制绑定数据为number类型
+      // console.log("valueType: ", val, typeof val);
+      return typeof val;
     },
 
     run_stop() {

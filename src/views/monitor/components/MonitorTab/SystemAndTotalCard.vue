@@ -23,7 +23,9 @@ export default {
     tab_name: String
   },
   data() {
-    return {};
+    return {
+      value:""
+    };
   },
 
   computed: {},

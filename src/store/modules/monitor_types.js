@@ -8,8 +8,19 @@ const default_server = {
   wss_client: null,
   strategy_select: [],
   exchange_contract_obj: {},
-  notify_callback: function(){},
-  engines: { "0": { strategy_arr: [] } }
+  notify_callback: function() {},
+  engines: {
+    "rb2010.DCE": {
+      strategy_arr: [
+        {
+          strategy_name: "",
+          strategy_class:"",
+          strategy_variables: [{ name: "", value: 0 }],
+          strategy_parameters: [{ name: "", value: 0 }]
+        }
+      ]
+    }
+  }
 };
 
 export default {
@@ -31,5 +42,6 @@ export default {
   edit_engine: "edit_engine",
   remove_engine: "remove_engine",
   add_strategy_to_engine: "add_strategy_to_engine",
+  update_engines_strategy_variables:"update_engines_strategy_variables",
   changeExchanges: "changeExchanges"
 };
